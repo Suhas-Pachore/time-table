@@ -1,0 +1,41 @@
+{
+	"TimeTable" : {
+		"School" : [
+			{
+				"id" : "SNBP",
+				"name" : "SNBP International School",
+				"class" : [
+					{
+						"std" : 3,
+						"division" : [
+							{
+								"div" : "B",
+								"Day" : [
+									{
+										"Day": 1,
+										"period":[
+											{
+												"period":1,
+												"subject":"English",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											},
+											{
+												"period":2,
+												"subject":"Hindi",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		]
+	}
+}

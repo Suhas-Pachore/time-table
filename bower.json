@@ -1,0 +1,20 @@
+{
+  "name": "timetable",
+  "description": "school timetable",
+  "main": "",
+  "authors": [
+    "suhas.pachore"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.4.0"
+  }
+}
