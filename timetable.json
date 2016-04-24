@@ -16,14 +16,59 @@
 										"period":[
 											{
 												"period":1,
-												"subject":"English",
+												"subject":"English1",
 												"textbook":"Yes",
 												"workbook":"No",
 												"notebook":"Yes"
 											},
 											{
 												"period":2,
-												"subject":"Hindi",
+												"subject":"Hindi1",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											},
+											{
+												"period":3,
+												"subject":"Maths1",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											}
+										]
+									},
+									{
+										"Day": 2,
+										"period":[
+											{
+												"period":1,
+												"subject":"English2",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											},
+											{
+												"period":2,
+												"subject":"Hindi2",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											}
+										]
+									},
+									{
+										"Day": 3,
+										"period":[
+											{
+												"period":1,
+												"subject":"English3",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											},
+											{
+												"period":2,
+												"subject":"Hindi3",
 												"textbook":"Yes",
 												"workbook":"No",
 												"notebook":"Yes"

@@ -4,7 +4,6 @@
   "description": "school timetbale application",
   "main": "index.js",
   "dependencies": {
-    "require": "^2.4.20"
   },
   "devDependencies": {},
   "scripts": {

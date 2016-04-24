@@ -1,0 +1,129 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-list/iron-list.html">
+
+<dom-module id="time-table">
+  <template>
+    <style>
+    </style>
+    <div>
+      table of {{rows}}X{{cols}}
+      <input id="school" value="[[iitt]]"></input>
+
+      <iron-list items="[[myTable]]" as="itemDay">
+        <template>
+          <div>
+            hello[[itemDay.period.length]]
+
+
+
+            <iron-list items="[[itemDay.period]]" as="item">
+              <template>
+                <div>
+                  [[item.subject]]
+                </div>
+              </template>
+            </iron-list>
+
+
+
+          </div>
+        </template>
+      </iron-list>
+    </div>
+  </template>
+
+  <script>
+    Polymer({
+      is:"time-table",
+      properties:{
+        rows:{
+          type: Number,
+          value:10
+        },
+        cols:{
+          type: Number,
+          value:7
+        },
+        myTable:{
+          type: Array
+        }
+      },
+      ready: function(){
+        in_school='SNBP';
+        in_class=3;
+        in_div='B';
+
+        var self = this;
+        self.loadJSON(function(response) {
+         // Parse JSON string into object
+           self.timeTable = JSON.parse(response).TimeTable;
+           self.schoolName1 = (self.timeTable.School[0].name);
+           self.parseClassTable(in_school, in_class, in_div);
+           console.log(self.myTable);
+        });
+      },
+
+      loadJSON: function(callback) {
+         var xobj = new XMLHttpRequest();
+         xobj.overrideMimeType("application/json");
+         xobj.open('GET', 'timetable.json', true); // Replace 'my_data' with the path to your file
+         xobj.onreadystatechange = function () {
+               if (xobj.readyState == 4 && xobj.status == "200") {
+                 // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
+                 callback(xobj.responseText);
+               }
+         };
+         xobj.send(null);
+      },
+
+      parseClassTable: function(in_school,in_class,in_div){
+          var self = this;
+          self.myTable = [];
+          self.itemList = [];
+          var i_sch = self.timeTable.School.length;
+          console.log(i_sch);
+          while(i_sch){
+            if(self.timeTable.School[i_sch-1].id === in_school){
+              var mysch = self.timeTable.School[i_sch-1];
+              var i_class = mysch.class.length;
+              console.log(i_class);
+              while(i_class){
+                if(mysch.class[i_class-1].std === in_class){
+                  var mycls = mysch.class[i_class-1];
+                  var i_div = mycls.division.length;
+                  console.log(i_div);
+                  while(i_div){
+                    if(mycls.division[i_div-1].div === in_div){
+                      var mydiv = mycls.division[i_div-1];
+                      var i_days = mydiv.Day.length;
+                      for(var i=0; i< i_days; i++){
+                        //self.myTable[i]=[];
+                      }
+                      while(i_days){
+                        var dd = mydiv.Day[i_days-1];
+                        var i_pd = dd.period.length;
+                        console.log("adding day:"+dd.Day);
+                        self.myTable[dd.Day - 1] = dd;
+                        for(var i=0; i< i_pd; i++){
+
+                        }
+
+                        i_days -= 1;
+                      }
+
+                    }
+                    i_div -= 1;
+                  }
+                }
+                i_class -= 1;
+              }
+            }
+            i_sch -= 1;
+          }
+
+      }
+
+    });
+
+  </script>
+</dom-module>
