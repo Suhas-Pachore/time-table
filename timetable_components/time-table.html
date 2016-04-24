@@ -1,30 +1,64 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/iron-list/iron-list.html">
-
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <dom-module id="time-table">
   <template>
-    <style>
-    </style>
-    <div>
-      table of {{rows}}X{{cols}}
-      <input id="school" value="[[iitt]]"></input>
+    <style is="custom-style">
+      iron-list.days{
+        height: 100%;
+      }
+      iron-list.period{
+        height: 505px;
+        width: 100px;
+      }
+      .table-area{
+        font-family: sans-serif;
+        font-size: 15px;
+      }
+      paper-card.day{
+        --paper-card-header:{
+          background-color: #9C27B0;
+          text-align: center;
+        };
+        --paper-card-header-color: white;
+        --paper-card-background-color:#9575CD;
+        margin: 2px;
+      }
+      paper-card.subjects{
+        --paper-card-background-color:#673AB7;
+        color:white;
+        width:100px;
+        margin:4px 0 2px 0;
 
-      <iron-list items="[[myTable]]" as="itemDay">
+      }
+
+    </style>
+    <div class="table-area">
+
+      <iron-list items="{{myTable.Day}}" grid="true" as="itemDay" class="days">
         <template>
           <div>
-            hello[[itemDay.period.length]]
-
-
-
-            <iron-list items="[[itemDay.period]]" as="item">
-              <template>
-                <div>
-                  [[item.subject]]
-                </div>
-              </template>
-            </iron-list>
-
-
+            <paper-card heading="[[itemDay.name]]" class="day" elevation=2>
+              <div class="card-content">
+                <iron-list items="[[itemDay.period]]" as="item" class="period">
+                  <template>
+                    <div>
+                      <paper-card class="subjects" elevation=2>
+                        <div class="card-content">
+                          [[item.subject]]
+                        </div>
+                        <!--div class="card-actions">
+                          <paper-icon-button icon="favorite"></paper-icon-button>
+                          <paper-icon-button icon="bookmark"></paper-icon-button>
+                        </div-->
+                      </paper-card>
+                    </div>
+                  </template>
+                </iron-list>
+              </div>
+            </paper-card>
 
           </div>
         </template>
@@ -44,8 +78,9 @@
           type: Number,
           value:7
         },
-        myTable:{
-          type: Array
+        myTab:{
+          type: Array,
+          value: ['a','b','c','d']
         }
       },
       ready: function(){
@@ -59,7 +94,6 @@
            self.timeTable = JSON.parse(response).TimeTable;
            self.schoolName1 = (self.timeTable.School[0].name);
            self.parseClassTable(in_school, in_class, in_div);
-           console.log(self.myTable);
         });
       },
 
@@ -78,7 +112,7 @@
 
       parseClassTable: function(in_school,in_class,in_div){
           var self = this;
-          self.myTable = [];
+          self.myTable = [3];
           self.itemList = [];
           var i_sch = self.timeTable.School.length;
           console.log(i_sch);
@@ -96,6 +130,7 @@
                     if(mycls.division[i_div-1].div === in_div){
                       var mydiv = mycls.division[i_div-1];
                       var i_days = mydiv.Day.length;
+                      self.myTable = mydiv;
                       for(var i=0; i< i_days; i++){
                         //self.myTable[i]=[];
                       }
@@ -103,14 +138,12 @@
                         var dd = mydiv.Day[i_days-1];
                         var i_pd = dd.period.length;
                         console.log("adding day:"+dd.Day);
-                        self.myTable[dd.Day - 1] = dd;
+
                         for(var i=0; i< i_pd; i++){
 
                         }
-
                         i_days -= 1;
                       }
-
                     }
                     i_div -= 1;
                   }

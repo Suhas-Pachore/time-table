@@ -13,24 +13,67 @@
 								"Day" : [
 									{
 										"Day": 1,
+										"name":"Day 1",
 										"period":[
 											{
 												"period":1,
-												"subject":"English1",
+												"subject":"Maths",
 												"textbook":"Yes",
 												"workbook":"No",
 												"notebook":"Yes"
 											},
 											{
 												"period":2,
-												"subject":"Hindi1",
+												"subject":"Maths",
 												"textbook":"Yes",
 												"workbook":"No",
 												"notebook":"Yes"
 											},
 											{
 												"period":3,
-												"subject":"Maths1",
+												"subject":"Art",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											},
+											{
+												"period":4,
+												"subject":"Sports",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											},
+											{
+												"period":5,
+												"subject":"Hindi",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											},
+											{
+												"period":6,
+												"subject":"Hindi",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											},
+											{
+												"period":7,
+												"subject":"Social Sci",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											},
+											{
+												"period":8,
+												"subject":"Social Sci",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											},
+											{
+												"period":9,
+												"subject":"Sports",
 												"textbook":"Yes",
 												"workbook":"No",
 												"notebook":"Yes"
@@ -39,17 +82,67 @@
 									},
 									{
 										"Day": 2,
+										"name":"Day 2",
 										"period":[
 											{
 												"period":1,
-												"subject":"English2",
+												"subject":"Maths",
 												"textbook":"Yes",
 												"workbook":"No",
 												"notebook":"Yes"
 											},
 											{
 												"period":2,
-												"subject":"Hindi2",
+												"subject":"Music",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											},
+											{
+												"period":3,
+												"subject":"Hindi",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											},
+											{
+												"period":4,
+												"subject":"English",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											},
+											{
+												"period":5,
+												"subject":"English",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											},
+											{
+												"period":6,
+												"subject":"Science",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											},
+											{
+												"period":7,
+												"subject":"Science",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											},
+											{
+												"period":8,
+												"subject":"Social Sci",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											},
+											{
+												"period":9,
+												"subject":"LeapStart",
 												"textbook":"Yes",
 												"workbook":"No",
 												"notebook":"Yes"
@@ -58,17 +151,274 @@
 									},
 									{
 										"Day": 3,
+										"name":"Day 3",
 										"period":[
 											{
 												"period":1,
-												"subject":"English3",
+												"subject":"Maths",
 												"textbook":"Yes",
 												"workbook":"No",
 												"notebook":"Yes"
 											},
 											{
 												"period":2,
-												"subject":"Hindi3",
+												"subject":"Maths",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											},
+											{
+												"period":3,
+												"subject":"Art",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											},
+											{
+												"period":4,
+												"subject":"Sports",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											},
+											{
+												"period":5,
+												"subject":"Hindi",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											},
+											{
+												"period":6,
+												"subject":"Hindi",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											},
+											{
+												"period":7,
+												"subject":"Social Sci",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											},
+											{
+												"period":8,
+												"subject":"Social Sci",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											},
+											{
+												"period":9,
+												"subject":"Sports",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											}
+										]
+									},
+									{
+										"Day": 4,
+										"name":"Day 4",
+										"period":[
+											{
+												"period":1,
+												"subject":"Maths",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											},
+											{
+												"period":2,
+												"subject":"Music",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											},
+											{
+												"period":3,
+												"subject":"Hindi",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											},
+											{
+												"period":4,
+												"subject":"English",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											},
+											{
+												"period":5,
+												"subject":"English",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											},
+											{
+												"period":6,
+												"subject":"Science",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											},
+											{
+												"period":7,
+												"subject":"Science",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											},
+											{
+												"period":8,
+												"subject":"Social Sci",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											},
+											{
+												"period":9,
+												"subject":"LeapStart",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											}
+										]
+									},
+									{
+										"Day": 5,
+										"name":"Day 5",
+										"period":[
+											{
+												"period":1,
+												"subject":"Maths",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											},
+											{
+												"period":2,
+												"subject":"Maths",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											},
+											{
+												"period":3,
+												"subject":"Art",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											},
+											{
+												"period":4,
+												"subject":"Sports",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											},
+											{
+												"period":5,
+												"subject":"Hindi",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											},
+											{
+												"period":6,
+												"subject":"Hindi",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											},
+											{
+												"period":7,
+												"subject":"Social Sci",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											},
+											{
+												"period":8,
+												"subject":"Social Sci",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											},
+											{
+												"period":9,
+												"subject":"Sports",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											}
+										]
+									},
+									{
+										"Day": 6,
+										"name":"Day 6",
+										"period":[
+											{
+												"period":1,
+												"subject":"Maths",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											},
+											{
+												"period":2,
+												"subject":"Music",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											},
+											{
+												"period":3,
+												"subject":"Hindi",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											},
+											{
+												"period":4,
+												"subject":"English",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											},
+											{
+												"period":5,
+												"subject":"English",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											},
+											{
+												"period":6,
+												"subject":"Science",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											},
+											{
+												"period":7,
+												"subject":"Science",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											},
+											{
+												"period":8,
+												"subject":"Social Sci",
+												"textbook":"Yes",
+												"workbook":"No",
+												"notebook":"Yes"
+											},
+											{
+												"period":9,
+												"subject":"LeapStart",
 												"textbook":"Yes",
 												"workbook":"No",
 												"notebook":"Yes"
