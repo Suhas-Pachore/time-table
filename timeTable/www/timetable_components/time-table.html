@@ -1,11 +1,15 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import "href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/iron-list/iron-list.html">
 <link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/iron-icons/av-icons.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <dom-module id="time-table">
   <template>
-    <style is="custom-style">
+    <style is="custom-style" include="iron-flex iron-flex-alignment">
       iron-list.days{
         height: 100%;
       }
@@ -35,86 +39,223 @@
       }
 
     </style>
-    <div class="table-area">
-      <iron-list items="{{myTable.Day}}" grid="true" as="itemDay" class="days">
-        <template>
-          <div>
-            <paper-card heading="[[itemDay.name]]" class="day" elevation=2>
-              <div class="card-content">
-                <iron-list items="[[itemDay.period]]" as="item" class="period">
-                  <template>
-                    <div>
-                      <paper-card class="subjects" elevation=2>
-                        <div class="card-content">
-                          [[item.subject]]
-                        </div>
-                        <!--div class="card-actions">
-                          <paper-icon-button icon="favorite"></paper-icon-button>
-                          <paper-icon-button icon="bookmark"></paper-icon-button>
-                        </div-->
-                      </paper-card>
-                    </div>
-                  </template>
-                </iron-list>
-              </div>
-            </paper-card>
+    <h1>{{title1}}</h1><h1>{{title2}}</h1>
+    <iron-pages selected="{{pageSel}}">
+      <div id="page-0" class="table-area">
+        <iron-list id="list_days" items="{{myTable.Day}}" grid="true" as="itemDay" class="days" selection-enabled selected-item="{{daySelected}}">
+          <template>
+            <div id="[[itemDay.Day]]" on-click="handleDayClick">
+              <paper-card heading="[[itemDay.name]]" class="day" elevation=2>
+                <div class="card-content">
+                  <iron-list items="[[itemDay.period]]" as="item" class="period">
+                    <template>
+                      <div>
+                        <paper-card class="subjects" elevation=2>
+                          <div class="card-content">
+                            [[item.subject]]
+                          </div>
+                          <!--div class="card-actions">
+                            <paper-icon-button icon="favorite"></paper-icon-button>
+                            <paper-icon-button icon="bookmark"></paper-icon-button>
+                          </div-->
+                        </paper-card>
+                      </div>
+                    </template>
+                  </iron-list>
+                </div>
+              </paper-card>
+            </div>
+          </template>
+        </iron-list>
+      </div>
+      <div id="page-1">
+        <div class="layout horizontal">
+          <div class="flex-2"><iron-icon icon="chevron-left" on-click="_prevDay"></iron-icon></div>
+          <div class="flex" text-align="center">[[daySelected.name]]</div>
+          <iron-icon icon="chevron-right" on-click="_nextDay"></iron-icon>
 
+        </div>
+        <iron-icon icon="settings" on-click="_editDay"></iron-icon>
+        <iron-list items="{{daySelected.period}}" as="item" class="">
+          <template>
+            <div>
+              <div elevation=2>
+                <div class="layout horizontal">
+                  <div class="flex">
+                    [[item.subject]]
+                  </div>
+                  <div>
+                    <iron-icon icon="book" hidden=[[!item.textbook]]></iron-icon>
+                    <iron-icon icon="remove" hidden=[[item.textbook]]></iron-icon>
+                  </div>
+                  <div>
+                    <iron-icon icon="av:library-books" hidden=[[!item.workbook]]></iron-icon>
+                    <iron-icon icon="remove" hidden=[[item.workbook]]></iron-icon>
+                  </div>
+                  <div>
+                    <iron-icon icon="assignment" hidden=[[!item.notebook]]></iron-icon>
+                    <iron-icon icon="remove" hidden=[[item.notebook]]></iron-icon>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </template>
+        </iron-list>
+      </div>
+      <div id="page-2">
+        <div>
+          <div>
+            <input is="iron-input" value="{{daySelected.name::input}}"></input>
+            <div class="card-content">
+              <iron-list items="{{daySelected.period}}" as="item" class="">
+                <template>
+                  <div>
+                    <div elevation=2>
+                      <div class="card-content">
+                        [[index]]
+                        <input is="iron-input" value="{{item.subject::input}}"></input>
+                        <paper-checkbox checked={{item.textbook}}></paper-checkbox>
+                        <paper-checkbox checked={{item.workbook}}></paper-checkbox>
+                        <paper-checkbox checked={{item.notebook}}></paper-checkbox>
+                      </div>
+                    </div>
+                  </div>
+                </template>
+              </iron-list>
+            </div>
+            <div class="card-actions">
+              <paper-icon-button icon="favorite"></paper-icon-button>
+              <paper-icon-button icon="bookmark" on-click="handleSaveClick"></paper-icon-button>
+            </div>
           </div>
-        </template>
-      </iron-list>
-    </div>
+        </div>
+      </div>
+
+    </iron-pages>
   </template>
 
   <script>
     Polymer({
       is:"time-table",
       properties:{
-        rows:{
-          type: Number,
-          value:10
+        title1:{
+          type: String,
+          value: "SNBP International School"
         },
-        cols:{
-          type: Number,
-          value:7
+        title2:{
+          type: String,
+          value: "Class: III-B"
         },
-        myTab:{
-          type: Array,
-          value: ['a','b','c','d']
+        in_school:{
+          type: String,
+          value:'SNBP'
+        },
+        in_class:{
+          type: Number,
+          value:3
+        },
+        in_div:{
+          type: String,
+          value: 'B'
+        },
+        pageSel:{
+          type: Number,
+          value: 0
         }
       },
-      ready: function(){
-        in_school='SNBP';
-        in_class=3;
-        in_div='B';
+      _nextDay:function(e){
+        var daySelector = document.getElementById('list_days');
+        var totDays= this.myTable.Day.length;
+        var currDay= this.daySelected.Day;
+        //console.log('tot:',totDays,this.daySelected.Day);
+        currDay += 1;
+        if(currDay>totDays){
+          currDay=1;
+        }
+        daySelector.selectItem(currDay-1);
+      },
+      _prevDay:function(e){
+        var daySelector = document.getElementById('list_days');
+        var totDays= this.myTable.Day.length;
+        var currDay= this.daySelected.Day;
+        //console.log('tot:',totDays,this.daySelected.Day);
+        currDay -= 1;
+        if(currDay<1){
+          currDay=6;
+        }
+        daySelector.selectItem(currDay-1);
+      },
+      _editDay:function(e){
+        this.pageSel=2;
+      },
+      handleDayClick: function(e) {
+        console.log("Day Clicked:"+e.currentTarget.id);
+        console.log("Day Selected:"+this.daySelected.name);
+        //this.myTable.Day[this.daySelected.Day-1] = this.daySelected;
+        //this.saveMyTable();
+        this.pageSel=1;
+      },
 
+      handleSaveClick: function(e, detail) {
+        console.log("Save Clicked"+JSON.stringify(detail));
+        //console.log("Day getting saved"+JSON.stringify(e.currentTarget));
+        //this.daySelected.name = 'changed';
+        console.log(JSON.stringify(this.daySelected));
+        this.myTable.Day[this.daySelected.Day-1] = this.daySelected;
+        this.saveMyTable();
+        //localStorage["timetable"]=JSON.stringify({"TimeTable":this.timeTable});
+        this.pageSel=0;
+      },
+
+      ready: function(){
         var self = this;
         self.loadJSON(function(response) {
          // Parse JSON string into object
+           console.log('tit',localStorage["title0"]);
+           if(localStorage.title0){
+             title0=JSON.parse(localStorage["title0"]);
+             self.title1=title0.title1;
+             self.title2=title0.title2;
+           }
+
            self.timeTable = JSON.parse(response).TimeTable;
            self.schoolName1 = (self.timeTable.School[0].name);
-           self.parseClassTable(in_school, in_class, in_div);
+           self.parseClassTable(self.in_school, self.in_class, self.in_div);
+
         });
+      },
+      attached: function(){
+        document.getElementById('list_days').fire('iron-resize');
       },
 
       loadJSON: function(callback) {
+        if(localStorage.timetable){
+          console.log("picking from localStorage:"+localStorage.timetable);
+          callback((localStorage["timetable"]));
+        }
+        else{
+         localStorage["title0"]=JSON.stringify({"title1":this.title1,"title2":this.title2});
          var xobj = new XMLHttpRequest();
          xobj.overrideMimeType("application/json");
          xobj.open('GET', 'timetable.json', true); // Replace 'my_data' with the path to your file
          xobj.onreadystatechange = function () {
                if (xobj.readyState == 4 && xobj.status == "200") {
                  // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
+                 localStorage["timetable"]=xobj.responseText;
                  callback(xobj.responseText);
                }
          };
          xobj.send(null);
+       }
       },
 
       parseClassTable: function(in_school,in_class,in_div){
           var self = this;
-          self.myTable = [3];
+          //self.myTable = [3];
           self.itemList = [];
           var i_sch = self.timeTable.School.length;
-          console.log(i_sch);
+          console.log(i_sch+in_school);
           while(i_sch){
             if(self.timeTable.School[i_sch-1].id === in_school){
               var mysch = self.timeTable.School[i_sch-1];
@@ -152,6 +293,59 @@
             }
             i_sch -= 1;
           }
+
+      },
+
+      saveMyTable: function(){
+          var self = this;
+          self.itemList = [];
+          var i_sch = self.timeTable.School.length;
+          console.log(i_sch);
+          while(i_sch){
+            if(self.timeTable.School[i_sch-1].id === self.in_school){
+              var mysch = self.timeTable.School[i_sch-1];
+              var i_class = mysch.class.length;
+              console.log(i_class);
+              while(i_class){
+                if(mysch.class[i_class-1].std === self.in_class){
+                  var mycls = mysch.class[i_class-1];
+                  var i_div = mycls.division.length;
+                  console.log(i_div);
+                  while(i_div){
+                    if(mycls.division[i_div-1].div === self.in_div){
+                      mycls.division[i_div-1] = self.myTable;//replaced with changed object
+                      /***
+                      var mydiv = mycls.division[i_div-1];
+                      var i_days = mydiv.Day.length;
+                      //self.myTable = mydiv;
+                      for(var i=0; i< i_days; i++){
+                        //self.myTable[i]=[];
+                      }
+                      while(i_days){
+                        var dd = mydiv.Day[i_days-1];
+                        var i_pd = dd.period.length;
+                        console.log("adding day:"+dd.Day);
+
+                        for(var i=0; i< i_pd; i++){
+
+                        }
+                        i_days -= 1;
+                      }
+                      ***/
+                    }
+                    i_div -= 1;
+                  }
+                  mysch.class[i_class-1]=mycls;
+                }
+
+                i_class -= 1;
+              }
+              self.timeTable.School[i_sch-1] = mysch;
+            }
+            i_sch -= 1;
+          }
+          console.log(self.timeTable.School[0].id);
+          localStorage["timetable"]=JSON.stringify({"TimeTable":self.timeTable});
 
       }
 
