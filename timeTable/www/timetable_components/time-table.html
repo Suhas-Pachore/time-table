@@ -1,14 +1,35 @@
 <dom-module id="time-table">
+
   <template>
     <style is="custom-style" include="iron-flex iron-flex-alignment">
+    :host{
+
+      --primary-bg-color : #673AB7;
+      --primary-color : white;
+      --primary-highlighter-color : #9575CD;
+
+
+      --my-custom-color: white;
+      --paper-tab-ink: var(--primary-color);
+
+      /* custom CSS property */
+      --paper-tabs-selection-bar-color: cyan;
+
+      /* custom CSS mixin */
+      --paper-tabs: {
+          background-color: var(--primary-bg-color);
+          color: var(--primary-color); /* variable defined in default-theme.html */
+          font-size: 20px;
+      }
+    }
       .action-container{
         @apply(--layout-horizontal);
         @apply(--layout-center-justified);
 
       }
-      paper-card.day{
+      paper-card.actions{
         --paper-card-header:{
-          background-color: #9C27B0;
+
           text-align: center;
           height: 0px;
           };
@@ -21,58 +42,64 @@
           padding: 4px;
         };
         --paper-card-header-color: white;
-        --paper-card-background-color:#9575CD;
+        width:100%;
         margin: 2px;
-        width: 256px;
       }
-      paper-icon-button {
-        --paper-icon-button-ink-color: var(--paper-orange-500);
-        background-color1: #9C27B0;
-        color1: white;
-        border-radius: 3px;
-        padding: 2px;
 
-      }
     </style>
 
-    <h1>{{title1}}:{{title2}}</h1>
+    <h1>{{title1}} - {{title2}}</h1>
     <paper-tabs selected="{{pageSel}}">
       <paper-tab><paper-icon-button icon="view-module"></paper-icon-button></paper-tab>
       <paper-tab><paper-icon-button icon="view-list"></paper-icon-button></paper-tab>
       <paper-tab><paper-icon-button icon="create"></paper-icon-button></paper-tab>
-      <paper-tab><paper-icon-button icon="settings-applications"></paper-icon-button></paper-tab>
+      <paper-tab><paper-icon-button icon="settings"></paper-icon-button></paper-tab>
     </paper-tabs>
     <iron-pages selected="{{pageSel}}">
       <div id="page-0">
         <week-view my-table={{myTable}} page-sel={{pageSel}} day-selected={{daySelected}}></week-view>
       </div>
       <div id="page-1">
-
+<day-view my-table={{myTable}} page-sel={{pageSel}} day-selected={{daySelected}}></day-view>
         <div class="action-container">
-          <paper-card class="day">
-            <div class="card-actions horizontal justified">
+          <paper-card class="actions">
+            <div class="card-actions layout horizontal justified">
               <paper-icon-button icon="chevron-left" on-click="_prevDay"></paper-icon-button>
               <paper-icon-button icon="settings" on-click="_editDay"></paper-icon-button>
               <paper-icon-button icon="chevron-right" on-click="_nextDay"></paper-icon-button>
             </div>
           </paper-card>
         </div>
-        <day-view my-table={{myTable}} page-sel={{pageSel}} day-selected={{daySelected}}></day-view>
+
+
       </div>
       <div id="page-2">
-
+<day-edit my-table={{myTable}} page-sel={{pageSel}} day-selected={{daySelected}} t1={{title1}} t2={{title2}}></day-edit>
         <div class="action-container">
-          <paper-card class="day">
-            <div class="horizontal justified card-actions ">
+          <paper-card class="actions">
+            <div class="layout horizontal justified card-actions ">
               <paper-icon-button icon="chevron-left" on-click="_prevDay"></paper-icon-button>
               <paper-icon-button icon="save" on-click="handleSaveClick"></paper-icon-button>
               <paper-icon-button icon="chevron-right" on-click="_nextDay"></paper-icon-button>
             </div>
           </paper-card>
         </div>
-        <day-edit my-table={{myTable}} page-sel={{pageSel}} day-selected={{daySelected}} t1={{title1}} t2={{title2}}></day-edit>
-      </div>
 
+
+      </div>
+      <div id="page-3">
+        <header-edit my-table={{myTable}} page-sel={{pageSel}} day-selected={{daySelected}} t1={{title1}} t2={{title2}}></header-edit>
+        <div class="action-container">
+          <paper-card class="actions">
+            <div class="card-actions layout horizontal justified">
+            <div>.</div>
+              <paper-icon-button icon="save" on-click="handleSaveClick"></paper-icon-button>
+              <div>.</div>
+            </div>
+          </paper-card>
+        </div>
+
+      </div>
     </iron-pages>
   </template>
 
@@ -127,6 +154,7 @@
         });
       },
       _nextDay:function(e){
+
         var daySelector = document.getElementById('list_days');
         var totDays= this.myTable.Day.length;
         var currDay= this.daySelected.Day;
@@ -136,8 +164,12 @@
           currDay=1;
         }
         daySelector.selectItem(currDay-1);
+        document.getElementById('list_CB').fire('iron-resize');
+        document.getElementById('list_WB').fire('iron-resize');
+        document.getElementById('list_NB').fire('iron-resize');
       },
       _prevDay:function(e){
+
         var daySelector = document.getElementById('list_days');
         var totDays= this.myTable.Day.length;
         var currDay= this.daySelected.Day;
@@ -147,6 +179,9 @@
           currDay=6;
         }
         daySelector.selectItem(currDay-1);
+        document.getElementById('list_CB').fire('iron-resize');
+        document.getElementById('list_WB').fire('iron-resize');
+        document.getElementById('list_NB').fire('iron-resize');
       },
       _editDay:function(e){
         this.pageSel=2;
@@ -154,7 +189,10 @@
       attached: function(){
         document.getElementById('list_days').fire('iron-resize');
         document.getElementById('list_periods').fire('iron-resize');
-        document.getElementById('list_days').selectItem(0);
+        document.getElementById('list_days').selectItem(2);
+        document.getElementById('list_CB').fire('iron-resize');
+        document.getElementById('list_WB').fire('iron-resize');
+        document.getElementById('list_NB').fire('iron-resize');
       },
 
       loadJSON: function(callback) {

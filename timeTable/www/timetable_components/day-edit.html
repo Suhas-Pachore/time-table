@@ -1,6 +1,9 @@
 <dom-module id="day-edit">
   <template>
     <style is="custom-style" include="iron-flex iron-flex-alignment">
+    :root{
+      --paper-checkbox-checked-color: var(--paper-blue-500);
+    }
       .table-area{
         @apply(--layout-horizontal);
         @apply(--layout-center-justified);
@@ -14,7 +17,7 @@
         --paper-card-header:{
           background-color: #9C27B0;
           text-align: center;
-          height: 36px;
+          height: 0px;
           };
         --paper-card-content:{
           padding:8px;
@@ -25,33 +28,40 @@
           padding: 4px;
         };
         --paper-card-header-color: white;
-        --paper-card-background-color:#9575CD;
         margin: 2px;
       }
+      .periodHead{
+
+        margin:1px 0 1px 0;
+        background-color: #555555;
+        color: #FFFFFF;
+
+      }
+      .periodHeadMain{
+
+        margin:1px 0 1px 0;
+        background-color: #9575CD;
+        color: #FFFFFF;
+
+      }
       .period{
-        color:#FFFFFF;
-        width:240px;
-        margin:4px 0 4px 0;
+
+        margin:1px 0 1px 0;
+
       }
       .subject{
-        background-color:#FFFFFF;
-        width:120px;
-        padding:0px;
+        width:150px;
+
       }
       .wb {
-        background-color:#895CD8;
-        color1:#00FF00;
-        width:35px;
+        width:30px;
 
       }
       .nb {
-        width:35px;
-        background-color1:#FFFFFF;
-        color1:#00FF00;
-
+        width:30px;
       }
       .tb {
-        width:35px;
+        width:30px;
 
       }
       paper-icon-button {
@@ -63,14 +73,30 @@
 
       }
     </style>
-    <paper-input is="iron-input" no-label-float value="{{t1::input}}"></paper-input>
-    <paper-input is="iron-input" no-label-float value="{{t2::input}}"></paper-input>
+
     <div id="page-2" class="table-area">
 
       <paper-card heading="[[daySelected.name]]" class="day" elevation=2>
         <div class="card-content">
-
-          <paper-input is="iron-input" no-label-float value="{{daySelected.name::input}}"></paper-input>
+          <div class="periodHeadMain">
+            <paper-input is="iron-input" no-label-float value="{{daySelected.name::input}}"></paper-input>
+          </div>
+          <div>
+            <paper-material class="periodHead layout horizontal" elevation=2>
+              <div class="subject">
+                Subject
+              </div>
+              <div class="tb">
+                <iron-icon icon="book"></iron-icon>
+              </div>
+              <div class='wb'>
+                <iron-icon icon="chrome-reader-mode"></iron-icon>
+              </div>
+              <div class='nb'>
+                <iron-icon icon="assignment"></iron-icon>
+              </div>
+            </paper-material>
+          </div>
           <iron-list id="list_periods" items="[[daySelected.period]]" as="item"  class="periodList">
             <template>
               <div>
