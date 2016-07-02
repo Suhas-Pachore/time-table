@@ -1,0 +1,104 @@
+<dom-module id="week-view">
+  <template>
+    <style is="custom-style" include="iron-flex iron-flex-alignment">
+      iron-list.daysList{
+        height: 100%;
+      }
+      iron-list.periodList{
+        height: 246px;
+        width: 105px;
+      }
+      .table-area{
+        font-family: sans-serif;
+        font-size: 18px;
+      }
+      paper-card.day{
+        --paper-card-header:{
+          background-color: #9C27B0;
+          text-align: center;
+          height: 36px;
+
+        };
+        --paper-card-content:{
+          padding:8px;
+          text-align: center;
+        };
+        --paper-card-header-text:{
+          font-size: 24px;
+          padding: 4px;
+        };
+        --paper-card-header-color: white;
+        --paper-card-background-color:#9575CD;
+        margin: 2px;
+      }
+      .period{
+        background-color:#673AB7;
+        color:#FFFFFF;
+        width:105px;
+        margin:4px 0 2px 0;
+        padding:0px;
+
+      }
+    </style>
+
+      <div id="page-0" class="table-area">
+        <iron-list id="list_days" items="{{myTable.Day}}" grid="true" as="itemDay" class="daysList" selection-enabled selected-item="{{daySelected}}">
+          <template>
+            <div id="[[itemDay.Day]]" on-click="handleDayClick">
+              <paper-card heading="[[itemDay.name]]" class="day" elevation=2>
+                <div class="card-content">
+                  <iron-list id="list_periods" items="[[itemDay.period]]" as="item"  class="periodList">
+                    <template>
+                      <div>
+                        <paper-material class="subjects" elevation=2>
+                          <div class="period">
+                            [[item.subject]]
+                          </div>
+                          <!--div class="card-actions">
+                            <paper-icon-button icon="favorite"></paper-icon-button>
+                            <paper-icon-button icon="bookmark"></paper-icon-button>
+                          </div-->
+                        </paper-material>
+                      </div>
+                    </template>
+                  </iron-list>
+                </div>
+              </paper-card>
+            </div>
+          </template>
+        </iron-list>
+      </div>
+  </template>
+
+  <script>
+    Polymer({
+      is:"week-view",
+      properties:{
+        myTable:{
+          type: Object
+        },
+        pageSel:{
+          type: Number,
+          notify: true
+        },
+        daySelected:{
+          type: Object,
+          notify: true
+        }
+      },
+      ready: function(){
+        console.log('eek-view',JSON.stringify(this.myTable));
+      },
+
+      handleDayClick: function(e) {
+        console.log("Day Clicked:"+e.currentTarget.id);
+        console.log("Day Selected:"+this.daySelected.name);
+        //this.myTable.Day[this.daySelected.Day-1] = this.daySelected;
+        //this.saveMyTable();
+        this.pageSel=1;
+      }
+
+    });
+
+  </script>
+</dom-module>

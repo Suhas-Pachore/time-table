@@ -1,0 +1,63 @@
+<dom-module id="day-edit">
+  <template>
+    <style is="custom-style" include="iron-flex iron-flex-alignment">
+
+    </style>
+
+    <div id="page-2">
+      <div>
+        <div>
+          <input is="iron-input" value="{{daySelected.name::input}}"></input>
+          <div class="card-content">
+            <iron-list items="{{daySelected.period}}" as="item" class="">
+              <template>
+                <div>
+                  <div elevation=2>
+                    <div class="card-content">
+                      [[index]]
+                      <input is="iron-input" value="{{item.subject::input}}"></input>
+                      <paper-checkbox checked={{item.textbook}}></paper-checkbox>
+                      <paper-checkbox checked={{item.workbook}}></paper-checkbox>
+                      <paper-checkbox checked={{item.notebook}}></paper-checkbox>
+                    </div>
+                  </div>
+                </div>
+              </template>
+            </iron-list>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </template>
+
+  <script>
+    Polymer({
+      is:"day-edit",
+      properties:{
+        myTable:{
+          type: Object
+        },
+        pageSel:{
+          type: Number,
+          notify: true
+        },
+        daySelected:{
+          type: Object,
+          notify: true
+        }
+      },
+      ready: function(){
+        //console.log('eek-view',JSON.stringify(this.myTable));
+      },
+
+
+      attached: function(){
+        //document.getElementById('list_days').fire('iron-resize');
+      }
+
+    });
+
+  </script>
+</dom-module>

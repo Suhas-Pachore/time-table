@@ -1,134 +1,22 @@
-<link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import "href="../bower_components/iron-pages/iron-pages.html">
-<link rel="import" href="../bower_components/iron-list/iron-list.html">
-<link rel="import" href="../bower_components/paper-card/paper-card.html">
-<link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
-<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
-<link rel="import" href="../bower_components/iron-icons/av-icons.html">
-<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <dom-module id="time-table">
   <template>
     <style is="custom-style" include="iron-flex iron-flex-alignment">
-      iron-list.days{
-        height: 100%;
-      }
-      iron-list.period{
-        height: 505px;
-        width: 100px;
-      }
-      .table-area{
-        font-family: sans-serif;
-        font-size: 15px;
-      }
-      paper-card.day{
-        --paper-card-header:{
-          background-color: #9C27B0;
-          text-align: center;
-        };
-        --paper-card-header-color: white;
-        --paper-card-background-color:#9575CD;
-        margin: 2px;
-      }
-      paper-card.subjects{
-        --paper-card-background-color:#673AB7;
-        color:white;
-        width:100px;
-        margin:4px 0 2px 0;
-
-      }
 
     </style>
+
     <h1>{{title1}}</h1><h1>{{title2}}</h1>
     <iron-pages selected="{{pageSel}}">
       <div id="page-0" class="table-area">
-        <iron-list id="list_days" items="{{myTable.Day}}" grid="true" as="itemDay" class="days" selection-enabled selected-item="{{daySelected}}">
-          <template>
-            <div id="[[itemDay.Day]]" on-click="handleDayClick">
-              <paper-card heading="[[itemDay.name]]" class="day" elevation=2>
-                <div class="card-content">
-                  <iron-list items="[[itemDay.period]]" as="item" class="period">
-                    <template>
-                      <div>
-                        <paper-card class="subjects" elevation=2>
-                          <div class="card-content">
-                            [[item.subject]]
-                          </div>
-                          <!--div class="card-actions">
-                            <paper-icon-button icon="favorite"></paper-icon-button>
-                            <paper-icon-button icon="bookmark"></paper-icon-button>
-                          </div-->
-                        </paper-card>
-                      </div>
-                    </template>
-                  </iron-list>
-                </div>
-              </paper-card>
-            </div>
-          </template>
-        </iron-list>
+        <week-view my-table={{myTable}} page-sel={{pageSel}} day-selected={{daySelected}}></week-view>
       </div>
       <div id="page-1">
-        <div class="layout horizontal">
-          <div class="flex-2"><iron-icon icon="chevron-left" on-click="_prevDay"></iron-icon></div>
-          <div class="flex" text-align="center">[[daySelected.name]]</div>
-          <iron-icon icon="chevron-right" on-click="_nextDay"></iron-icon>
-
-        </div>
-        <iron-icon icon="settings" on-click="_editDay"></iron-icon>
-        <iron-list items="{{daySelected.period}}" as="item" class="">
-          <template>
-            <div>
-              <div elevation=2>
-                <div class="layout horizontal">
-                  <div class="flex">
-                    [[item.subject]]
-                  </div>
-                  <div>
-                    <iron-icon icon="book" hidden=[[!item.textbook]]></iron-icon>
-                    <iron-icon icon="remove" hidden=[[item.textbook]]></iron-icon>
-                  </div>
-                  <div>
-                    <iron-icon icon="av:library-books" hidden=[[!item.workbook]]></iron-icon>
-                    <iron-icon icon="remove" hidden=[[item.workbook]]></iron-icon>
-                  </div>
-                  <div>
-                    <iron-icon icon="assignment" hidden=[[!item.notebook]]></iron-icon>
-                    <iron-icon icon="remove" hidden=[[item.notebook]]></iron-icon>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-          </template>
-        </iron-list>
+        <day-view my-table={{myTable}} page-sel={{pageSel}} day-selected={{daySelected}}></day-view>
       </div>
       <div id="page-2">
-        <div>
-          <div>
-            <input is="iron-input" value="{{daySelected.name::input}}"></input>
-            <div class="card-content">
-              <iron-list items="{{daySelected.period}}" as="item" class="">
-                <template>
-                  <div>
-                    <div elevation=2>
-                      <div class="card-content">
-                        [[index]]
-                        <input is="iron-input" value="{{item.subject::input}}"></input>
-                        <paper-checkbox checked={{item.textbook}}></paper-checkbox>
-                        <paper-checkbox checked={{item.workbook}}></paper-checkbox>
-                        <paper-checkbox checked={{item.notebook}}></paper-checkbox>
-                      </div>
-                    </div>
-                  </div>
-                </template>
-              </iron-list>
-            </div>
-            <div class="card-actions">
-              <paper-icon-button icon="favorite"></paper-icon-button>
-              <paper-icon-button icon="bookmark" on-click="handleSaveClick"></paper-icon-button>
-            </div>
-          </div>
+        <day-edit my-table={{myTable}} page-sel={{pageSel}} day-selected={{daySelected}}></day-edit>
+        <div class="card-actions">
+          <paper-icon-button icon="favorite"></paper-icon-button>
+          <paper-icon-button icon="bookmark" on-click="handleSaveClick"></paper-icon-button>
         </div>
       </div>
 
@@ -164,49 +52,9 @@
           value: 0
         }
       },
-      _nextDay:function(e){
-        var daySelector = document.getElementById('list_days');
-        var totDays= this.myTable.Day.length;
-        var currDay= this.daySelected.Day;
-        //console.log('tot:',totDays,this.daySelected.Day);
-        currDay += 1;
-        if(currDay>totDays){
-          currDay=1;
-        }
-        daySelector.selectItem(currDay-1);
-      },
-      _prevDay:function(e){
-        var daySelector = document.getElementById('list_days');
-        var totDays= this.myTable.Day.length;
-        var currDay= this.daySelected.Day;
-        //console.log('tot:',totDays,this.daySelected.Day);
-        currDay -= 1;
-        if(currDay<1){
-          currDay=6;
-        }
-        daySelector.selectItem(currDay-1);
-      },
-      _editDay:function(e){
-        this.pageSel=2;
-      },
-      handleDayClick: function(e) {
-        console.log("Day Clicked:"+e.currentTarget.id);
-        console.log("Day Selected:"+this.daySelected.name);
-        //this.myTable.Day[this.daySelected.Day-1] = this.daySelected;
-        //this.saveMyTable();
-        this.pageSel=1;
-      },
 
-      handleSaveClick: function(e, detail) {
-        console.log("Save Clicked"+JSON.stringify(detail));
-        //console.log("Day getting saved"+JSON.stringify(e.currentTarget));
-        //this.daySelected.name = 'changed';
-        console.log(JSON.stringify(this.daySelected));
-        this.myTable.Day[this.daySelected.Day-1] = this.daySelected;
-        this.saveMyTable();
-        //localStorage["timetable"]=JSON.stringify({"TimeTable":this.timeTable});
-        this.pageSel=0;
-      },
+
+
 
       ready: function(){
         var self = this;
@@ -225,8 +73,10 @@
 
         });
       },
+
       attached: function(){
         document.getElementById('list_days').fire('iron-resize');
+        document.getElementById('list_periods').fire('iron-resize');
       },
 
       loadJSON: function(callback) {
@@ -295,7 +145,16 @@
           }
 
       },
-
+      handleSaveClick: function(e, detail) {
+        console.log("Save Clicked"+JSON.stringify(detail));
+        //console.log("Day getting saved"+JSON.stringify(e.currentTarget));
+        //this.daySelected.name = 'changed';
+        console.log(JSON.stringify(this.daySelected));
+        //this.myTable.Day[this.daySelected.Day-1] = this.daySelected;
+        this.saveMyTable();
+        //localStorage["timetable"]=JSON.stringify({"TimeTable":this.timeTable});
+        this.pageSel=0;
+      },
       saveMyTable: function(){
           var self = this;
           self.itemList = [];

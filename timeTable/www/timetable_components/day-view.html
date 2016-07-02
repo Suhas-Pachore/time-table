@@ -1,0 +1,97 @@
+<dom-module id="day-view">
+  <template>
+    <style is="custom-style" include="iron-flex iron-flex-alignment">
+
+    </style>
+
+    <div id="page-1">
+      <div class="layout horizontal">
+        <div class="flex-2"><iron-icon icon="chevron-left" on-click="_prevDay"></iron-icon></div>
+        <div class="flex" text-align="center">[[daySelected.name]]</div>
+        <iron-icon icon="chevron-right" on-click="_nextDay"></iron-icon>
+
+      </div>
+      <iron-icon icon="settings" on-click="_editDay"></iron-icon>
+      <iron-list items="{{daySelected.period}}" as="item" class="">
+        <template>
+          <div>
+            <div elevation=2>
+              <div class="layout horizontal">
+                <div class="flex">
+                  [[item.subject]]
+                </div>
+                <div>
+                  <iron-icon icon="book" hidden=[[!item.textbook]]></iron-icon>
+                  <iron-icon icon="remove" hidden=[[item.textbook]]></iron-icon>
+                </div>
+                <div>
+                  <iron-icon icon="av:library-books" hidden=[[!item.workbook]]></iron-icon>
+                  <iron-icon icon="remove" hidden=[[item.workbook]]></iron-icon>
+                </div>
+                <div>
+                  <iron-icon icon="assignment" hidden=[[!item.notebook]]></iron-icon>
+                  <iron-icon icon="remove" hidden=[[item.notebook]]></iron-icon>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </template>
+      </iron-list>
+    </div>
+
+  </template>
+
+  <script>
+    Polymer({
+      is:"day-view",
+      properties:{
+        myTable:{
+          type: Object
+        },
+        pageSel:{
+          type: Number,
+          notify: true
+        },
+        daySelected:{
+          type: Object,
+          notify: true
+        }
+      },
+      ready: function(){
+        //console.log('eek-view',JSON.stringify(this.myTable));
+      },
+
+      _nextDay:function(e){
+        var daySelector = document.getElementById('list_days');
+        var totDays= this.myTable.Day.length;
+        var currDay= this.daySelected.Day;
+        //console.log('tot:',totDays,this.daySelected.Day);
+        currDay += 1;
+        if(currDay>totDays){
+          currDay=1;
+        }
+        daySelector.selectItem(currDay-1);
+      },
+      _prevDay:function(e){
+        var daySelector = document.getElementById('list_days');
+        var totDays= this.myTable.Day.length;
+        var currDay= this.daySelected.Day;
+        //console.log('tot:',totDays,this.daySelected.Day);
+        currDay -= 1;
+        if(currDay<1){
+          currDay=6;
+        }
+        daySelector.selectItem(currDay-1);
+      },
+      _editDay:function(e){
+        this.pageSel=2;
+      },
+      attached: function(){
+        //document.getElementById('list_days').fire('iron-resize');
+      }
+
+    });
+
+  </script>
+</dom-module>
