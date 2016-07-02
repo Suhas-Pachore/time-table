@@ -1,23 +1,76 @@
 <dom-module id="time-table">
   <template>
     <style is="custom-style" include="iron-flex iron-flex-alignment">
+      .action-container{
+        @apply(--layout-horizontal);
+        @apply(--layout-center-justified);
 
+      }
+      paper-card.day{
+        --paper-card-header:{
+          background-color: #9C27B0;
+          text-align: center;
+          height: 0px;
+          };
+        --paper-card-content:{
+          padding:8px;
+          text-align: center;
+        };
+        --paper-card-header-text:{
+          font-size: 24px;
+          padding: 4px;
+        };
+        --paper-card-header-color: white;
+        --paper-card-background-color:#9575CD;
+        margin: 2px;
+        width: 256px;
+      }
+      paper-icon-button {
+        --paper-icon-button-ink-color: var(--paper-orange-500);
+        background-color1: #9C27B0;
+        color1: white;
+        border-radius: 3px;
+        padding: 2px;
+
+      }
     </style>
 
-    <h1>{{title1}}</h1><h1>{{title2}}</h1>
+    <h1>{{title1}}:{{title2}}</h1>
+    <paper-tabs selected="{{pageSel}}">
+      <paper-tab><paper-icon-button icon="view-module"></paper-icon-button></paper-tab>
+      <paper-tab><paper-icon-button icon="view-list"></paper-icon-button></paper-tab>
+      <paper-tab><paper-icon-button icon="create"></paper-icon-button></paper-tab>
+      <paper-tab><paper-icon-button icon="settings-applications"></paper-icon-button></paper-tab>
+    </paper-tabs>
     <iron-pages selected="{{pageSel}}">
-      <div id="page-0" class="table-area">
+      <div id="page-0">
         <week-view my-table={{myTable}} page-sel={{pageSel}} day-selected={{daySelected}}></week-view>
       </div>
       <div id="page-1">
+
+        <div class="action-container">
+          <paper-card class="day">
+            <div class="card-actions horizontal justified">
+              <paper-icon-button icon="chevron-left" on-click="_prevDay"></paper-icon-button>
+              <paper-icon-button icon="settings" on-click="_editDay"></paper-icon-button>
+              <paper-icon-button icon="chevron-right" on-click="_nextDay"></paper-icon-button>
+            </div>
+          </paper-card>
+        </div>
         <day-view my-table={{myTable}} page-sel={{pageSel}} day-selected={{daySelected}}></day-view>
       </div>
       <div id="page-2">
-        <day-edit my-table={{myTable}} page-sel={{pageSel}} day-selected={{daySelected}}></day-edit>
-        <div class="card-actions">
-          <paper-icon-button icon="favorite"></paper-icon-button>
-          <paper-icon-button icon="bookmark" on-click="handleSaveClick"></paper-icon-button>
+
+        <div class="action-container">
+          <paper-card class="day">
+            <div class="horizontal justified card-actions ">
+              <paper-icon-button icon="chevron-left" on-click="_prevDay"></paper-icon-button>
+              <paper-icon-button icon="save" on-click="handleSaveClick"></paper-icon-button>
+              <paper-icon-button icon="chevron-right" on-click="_nextDay"></paper-icon-button>
+            </div>
+          </paper-card>
         </div>
+        <day-edit my-table={{myTable}} page-sel={{pageSel}} day-selected={{daySelected}} t1={{title1}} t2={{title2}}></day-edit>
       </div>
 
     </iron-pages>
@@ -60,11 +113,11 @@
         var self = this;
         self.loadJSON(function(response) {
          // Parse JSON string into object
-           console.log('tit',localStorage["title0"]);
-           if(localStorage.title0){
-             title0=JSON.parse(localStorage["title0"]);
-             self.title1=title0.title1;
-             self.title2=title0.title2;
+           console.log('tit',localStorage["title"]);
+           if(localStorage.title){
+             title=JSON.parse(localStorage["title"]);
+             self.title1=title.title1;
+             self.title2=title.title2;
            }
 
            self.timeTable = JSON.parse(response).TimeTable;
@@ -73,10 +126,35 @@
 
         });
       },
-
+      _nextDay:function(e){
+        var daySelector = document.getElementById('list_days');
+        var totDays= this.myTable.Day.length;
+        var currDay= this.daySelected.Day;
+        //console.log('tot:',totDays,this.daySelected.Day);
+        currDay += 1;
+        if(currDay>totDays){
+          currDay=1;
+        }
+        daySelector.selectItem(currDay-1);
+      },
+      _prevDay:function(e){
+        var daySelector = document.getElementById('list_days');
+        var totDays= this.myTable.Day.length;
+        var currDay= this.daySelected.Day;
+        //console.log('tot:',totDays,this.daySelected.Day);
+        currDay -= 1;
+        if(currDay<1){
+          currDay=6;
+        }
+        daySelector.selectItem(currDay-1);
+      },
+      _editDay:function(e){
+        this.pageSel=2;
+      },
       attached: function(){
         document.getElementById('list_days').fire('iron-resize');
         document.getElementById('list_periods').fire('iron-resize');
+        document.getElementById('list_days').selectItem(0);
       },
 
       loadJSON: function(callback) {
@@ -205,6 +283,7 @@
           }
           console.log(self.timeTable.School[0].id);
           localStorage["timetable"]=JSON.stringify({"TimeTable":self.timeTable});
+          localStorage["title"]=JSON.stringify({"title1":this.title1,"title2":this.title2});
 
       }
 

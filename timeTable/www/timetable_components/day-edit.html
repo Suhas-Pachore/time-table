@@ -1,33 +1,105 @@
 <dom-module id="day-edit">
   <template>
     <style is="custom-style" include="iron-flex iron-flex-alignment">
+      .table-area{
+        @apply(--layout-horizontal);
+        @apply(--layout-center-justified);
+        font-family: sans-serif;
+        font-size: 24px;
+      }
+      iron-list.periodList{
+        width: 240px;
+      }
+      paper-card.day{
+        --paper-card-header:{
+          background-color: #9C27B0;
+          text-align: center;
+          height: 36px;
+          };
+        --paper-card-content:{
+          padding:8px;
+          text-align: center;
+        };
+        --paper-card-header-text:{
+          font-size: 24px;
+          padding: 4px;
+        };
+        --paper-card-header-color: white;
+        --paper-card-background-color:#9575CD;
+        margin: 2px;
+      }
+      .period{
+        color:#FFFFFF;
+        width:240px;
+        margin:4px 0 4px 0;
+      }
+      .subject{
+        background-color:#FFFFFF;
+        width:120px;
+        padding:0px;
+      }
+      .wb {
+        background-color:#895CD8;
+        color1:#00FF00;
+        width:35px;
 
+      }
+      .nb {
+        width:35px;
+        background-color1:#FFFFFF;
+        color1:#00FF00;
+
+      }
+      .tb {
+        width:35px;
+
+      }
+      paper-icon-button {
+        --paper-icon-button-ink-color: var(--paper-orange-500);
+        background-color: #9C27B0;
+        color: white;
+        border-radius: 3px;
+        padding: 2px;
+
+      }
     </style>
+    <paper-input is="iron-input" no-label-float value="{{t1::input}}"></paper-input>
+    <paper-input is="iron-input" no-label-float value="{{t2::input}}"></paper-input>
+    <div id="page-2" class="table-area">
 
-    <div id="page-2">
-      <div>
-        <div>
-          <input is="iron-input" value="{{daySelected.name::input}}"></input>
-          <div class="card-content">
-            <iron-list items="{{daySelected.period}}" as="item" class="">
-              <template>
-                <div>
-                  <div elevation=2>
-                    <div class="card-content">
-                      [[index]]
-                      <input is="iron-input" value="{{item.subject::input}}"></input>
-                      <paper-checkbox checked={{item.textbook}}></paper-checkbox>
-                      <paper-checkbox checked={{item.workbook}}></paper-checkbox>
-                      <paper-checkbox checked={{item.notebook}}></paper-checkbox>
-                    </div>
+      <paper-card heading="[[daySelected.name]]" class="day" elevation=2>
+        <div class="card-content">
+
+          <paper-input is="iron-input" no-label-float value="{{daySelected.name::input}}"></paper-input>
+          <iron-list id="list_periods" items="[[daySelected.period]]" as="item"  class="periodList">
+            <template>
+              <div>
+                <paper-material class="period layout horizontal" elevation=2>
+                  <div class="subject">
+                    <paper-input is="iron-input" no-label-float value="{{item.subject::input}}"></paper-input>
                   </div>
-                </div>
-              </template>
-            </iron-list>
-          </div>
+                  <div class="tb">
+                    <iron-icon1 icon="book" hidden=[[!item.textbook]]></iron-icon1>
+                    <paper-checkbox checked={{item.textbook}}></paper-checkbox>
 
+                  </div>
+                  <div class='wb'>
+                    <iron-icon1 icon="content-copy" hidden=[[!item.workbook]]></iron-icon1>
+
+                    <paper-checkbox checked={{item.workbook}}></paper-checkbox>
+
+                  </div>
+                  <div class='nb'>
+                    <iron-icon1 icon="assignment" hidden=[[!item.notebook]]></iron-icon1>
+
+                    <paper-checkbox checked={{item.notebook}}></paper-checkbox>
+                  </div>
+                </paper-material>
+              </div>
+            </template>
+          </iron-list>
         </div>
-      </div>
+      </paper-card>
     </div>
 
   </template>
@@ -45,6 +117,14 @@
         },
         daySelected:{
           type: Object,
+          notify: true
+        },
+        t1:{
+          type:String,
+          notify: true
+        },
+        t2:{
+          type:String,
           notify: true
         }
       },

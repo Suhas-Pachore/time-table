@@ -42,9 +42,10 @@
     </style>
 
       <div id="page-0" class="table-area">
+        <div>
         <iron-list id="list_days" items="{{myTable.Day}}" grid="true" as="itemDay" class="daysList" selection-enabled selected-item="{{daySelected}}">
           <template>
-            <div id="[[itemDay.Day]]" on-click="handleDayClick">
+            <div id="[[index]]" on-click="handleDayClick">
               <paper-card heading="[[itemDay.name]]" class="day" elevation=2>
                 <div class="card-content">
                   <iron-list id="list_periods" items="[[itemDay.period]]" as="item"  class="periodList">
@@ -67,6 +68,7 @@
             </div>
           </template>
         </iron-list>
+      </div>
       </div>
   </template>
 
@@ -91,10 +93,13 @@
       },
 
       handleDayClick: function(e) {
-        console.log("Day Clicked:"+e.currentTarget.id);
-        console.log("Day Selected:"+this.daySelected.name);
+        var dayClickedIdx = e.currentTarget.id -1 + 1;
+        console.log("Day Clicked:"+dayClickedIdx);
+        //console.log("Day Selected:"+this.daySelected.name);
         //this.myTable.Day[this.daySelected.Day-1] = this.daySelected;
         //this.saveMyTable();
+
+        document.getElementById('list_days').selectItem(dayClickedIdx+1-1);
         this.pageSel=1;
       }
 
