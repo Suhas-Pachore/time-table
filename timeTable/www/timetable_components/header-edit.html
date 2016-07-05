@@ -8,7 +8,7 @@
         font-size: 24px;
       }
       iron-list.periodList{
-        width: 240px;
+        width1: 340px;
       }
       paper-card.day{
         --paper-card-header:{
@@ -18,7 +18,6 @@
           };
         --paper-card-content:{
           padding:8px;
-          text-align: center;
         };
         --paper-card-header-text:{
           font-size: 24px;
@@ -30,7 +29,7 @@
       }
       .period{
         color:#FFFFFF;
-        width:240px;
+        width:350px;
         margin:4px 0 4px 0;
       }
       .subject{
@@ -51,25 +50,25 @@
 
     <div id="page-2" class="table-area">
       <paper-card  heading="Personalize" class="day" elevation=2>
-        <div class="card-content">
-      <paper-material class="period layout horizontal" elevation=2>
-        <div class="">
-          <paper-input is="iron-input" no-label-float value="{{t1::input}}"></paper-input>
+        <div class="card-content layout vertical">
+          <paper-material class="period" elevation=2>
+            <div class="">
+              <paper-input is="iron-input" no-label-float value="{{t1::input}}"></paper-input>
 
+            </div>
+
+
+          </paper-material>
+          <paper-material class="period" elevation=2>
+
+            <div class="">
+
+              <paper-input is="iron-input" no-label-float value="{{t2::input}}"></paper-input>
+            </div>
+
+          </paper-material>
         </div>
-
-
-      </paper-material>
-      <paper-material class="period layout horizontal" elevation=2>
-
-        <div class="">
-
-          <paper-input is="iron-input" no-label-float value="{{t2::input}}"></paper-input>
-        </div>
-
-      </paper-material>
-    </div>
-    </paper-card>
+      </paper-card>
 </div>
 
 

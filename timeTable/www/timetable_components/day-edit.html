@@ -8,20 +8,18 @@
         @apply(--layout-horizontal);
         @apply(--layout-center-justified);
         font-family: sans-serif;
-        font-size: 24px;
+        font-size: 15px;
       }
       iron-list.periodList{
-        width: 240px;
+        width: 320px;
       }
       paper-card.day{
         --paper-card-header:{
           background-color: #9C27B0;
-          text-align: center;
           height: 0px;
           };
         --paper-card-content:{
           padding:8px;
-          text-align: center;
         };
         --paper-card-header-text:{
           font-size: 24px;
@@ -35,7 +33,7 @@
         margin:1px 0 1px 0;
         background-color: #555555;
         color: #FFFFFF;
-
+        font-size: 18px;
       }
       .periodHeadMain{
 
@@ -49,19 +47,23 @@
         margin:1px 0 1px 0;
 
       }
-      .subject{
-        width:150px;
+      .subject1{
+        width:180px;
+        border-color: red;
 
       }
       .wb {
-        width:30px;
+        width:45px;
+        padding: 8px;
 
       }
       .nb {
-        width:30px;
+        width:45px;
+        padding: 8px;
       }
       .tb {
-        width:30px;
+        width:45px;
+        padding: 8px;
 
       }
       paper-icon-button {
@@ -83,7 +85,7 @@
           </div>
           <div>
             <paper-material class="periodHead layout horizontal" elevation=2>
-              <div class="subject">
+              <div class="flex">
                 Subject
               </div>
               <div class="tb">
@@ -101,7 +103,7 @@
             <template>
               <div>
                 <paper-material class="period layout horizontal" elevation=2>
-                  <div class="subject">
+                  <div class="flex">
                     <paper-input is="iron-input" no-label-float value="{{item.subject::input}}"></paper-input>
                   </div>
                   <div class="tb">

@@ -5,26 +5,26 @@
         @apply(--layout-horizontal);
         @apply(--layout-center-justified);
         font-family: sans-serif;
-        font-size: 18px;
+        font-size: 15px;
+
       }
       iron-list.periodList{
-        width: 210px;
+        width: 165px;
       }
       iron-list.thinList{
-        width: 75px;
+        width: 172px;
       }
       paper-card.day{
         --paper-card-header:{
           background-color: #9575CD;
           text-align: center;
-          height: 36px;
+          height: 30px;
           };
         --paper-card-content:{
           padding:8px;
-          text-align: center;
         };
         --paper-card-header-text:{
-          font-size: 24px;
+          font-size: 18px;
           padding: 4px;
         };
         --paper-card-header-color: white;
@@ -57,7 +57,7 @@
       }
 
       .thin{
-        width:75px;
+        width:90px;
         font-size: 15px;
         padding:0px;
 
@@ -65,12 +65,14 @@
 
       .period{
         color:#000000;
-        width:194px;
-        margin:4px 0 4px 0;
-        padding:8px;
+        width:157px;
+        margin:2px 0 2px 0;
+        padding:4px;
+
       }
       .subject{
-        width:90px;
+        width:97px;
+        height:24px;
       }
 
       .wb {
@@ -129,9 +131,9 @@
       </paper-card>
 
       <div>
-        <paper-card heading="Cont Books" class="day smallHead CB">
+        <paper-card heading="Cont Books" class="day CB">
           <div class="card-content">
-            <iron-list id="list_CB" items="[[daySelected.period]]" as="item1" class="thinList" >
+            <iron-list id="list_CB" items="[[daySelected.period]]" as="item1" class="periodList" >
               <template>
                 <div class="thin">
                     <div class="thin" hidden=[[!item1.textbook]]>
@@ -143,9 +145,9 @@
           </div>
         </paper-card>
 
-        <paper-card heading="Work Books" class="day smallHead WB">
+        <paper-card heading="Work Books" class="day WB">
           <div class="card-content">
-            <iron-list id="list_WB" items="[[daySelected.period]]" as="item2" class="thinList" >
+            <iron-list id="list_WB" items="[[daySelected.period]]" as="item2" class="periodList" >
               <template>
                 <div class="thin">
                     <div class="thin" hidden=[[!item2.workbook]]>
@@ -157,9 +159,9 @@
           </div>
         </paper-card>
 
-        <paper-card heading="Note Books" class="day smallHead NB">
+        <paper-card heading="Note Books" class="day NB">
           <div class="card-content">
-            <iron-list id="list_NB" items="[[daySelected.period]]" as="item3" class="thinList" >
+            <iron-list id="list_NB" items="[[daySelected.period]]" as="item3" class="periodList" >
               <template>
                 <div class="thin">
                     <div class="thin" hidden=[[!item3.notebook]]>
