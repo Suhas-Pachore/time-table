@@ -6,13 +6,15 @@
         @apply(--layout-center-justified);
         font-family: sans-serif;
         font-size: 15px;
-
+      }
+      .right-bar{
+        @apply(--layout-vertical);
       }
       iron-list.periodList{
-        width: 165px;
+        width: 180px;
       }
       iron-list.thinList{
-        width: 172px;
+        width: 120px;
       }
       paper-card.day{
         --paper-card-header:{
@@ -57,7 +59,7 @@
       }
 
       .thin{
-        width:90px;
+        width:120px;
         font-size: 15px;
         padding:0px;
 
@@ -65,13 +67,13 @@
 
       .period{
         color:#000000;
-        width:157px;
+        width:172px;
         margin:2px 0 2px 0;
         padding:4px;
 
       }
       .subject{
-        width:97px;
+        width:90px;
         height:24px;
       }
 
@@ -130,10 +132,10 @@
         </div>
       </paper-card>
 
-      <div>
+      <div class="right-bar">
         <paper-card heading="Cont Books" class="day CB">
           <div class="card-content">
-            <iron-list id="list_CB" items="[[daySelected.period]]" as="item1" class="periodList" >
+            <iron-list id="list_CB" items="[[daySelected.period]]" as="item1" class="periodList thinList" >
               <template>
                 <div class="thin">
                     <div class="thin" hidden=[[!item1.textbook]]>
@@ -147,7 +149,7 @@
 
         <paper-card heading="Work Books" class="day WB">
           <div class="card-content">
-            <iron-list id="list_WB" items="[[daySelected.period]]" as="item2" class="periodList" >
+            <iron-list id="list_WB" items="[[daySelected.period]]" as="item2" class="periodList thinList" >
               <template>
                 <div class="thin">
                     <div class="thin" hidden=[[!item2.workbook]]>
@@ -161,7 +163,7 @@
 
         <paper-card heading="Note Books" class="day NB">
           <div class="card-content">
-            <iron-list id="list_NB" items="[[daySelected.period]]" as="item3" class="periodList" >
+            <iron-list id="list_NB" items="[[daySelected.period]]" as="item3" class="periodList thinList" >
               <template>
                 <div class="thin">
                     <div class="thin" hidden=[[!item3.notebook]]>

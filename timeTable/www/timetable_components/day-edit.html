@@ -11,7 +11,7 @@
         font-size: 15px;
       }
       iron-list.periodList{
-        width: 320px;
+        width: 300px;
       }
       paper-card.day{
         --paper-card-header:{
@@ -31,13 +31,14 @@
       .periodHead{
 
         margin:1px 0 1px 0;
-        background-color: #555555;
+        background1-color: #555555;
         color: #FFFFFF;
-        font-size: 18px;
+        font-size: 24px;
+        text-align: center;
       }
       .periodHeadMain{
 
-        margin:1px 0 1px 0;
+        margin:2px 0 0 0;
         background-color: #9575CD;
         color: #FFFFFF;
 
@@ -47,22 +48,22 @@
         margin:1px 0 1px 0;
 
       }
-      .subject1{
-        width:180px;
-        border-color: red;
-
+      .subject{
+        text-align: center;
+        padding: 4px 0 0 0;
+        font-size: 24px;
       }
       .wb {
-        width:45px;
+        width:30px;
         padding: 8px;
 
       }
       .nb {
-        width:45px;
+        width:30px;
         padding: 8px;
       }
       .tb {
-        width:45px;
+        width:30px;
         padding: 8px;
 
       }
@@ -77,33 +78,33 @@
     </style>
 
     <div id="page-2" class="table-area">
+      <div>
+        <paper-material class="periodHeadMain layout horizontal" elevation=2>
+          <div class="flex subject">
+            Subject
+          </div>
+          <div class="tb">
+            <iron-icon icon="book"></iron-icon>
+          </div>
+          <div class='wb'>
+            <iron-icon icon="chrome-reader-mode"></iron-icon>
+          </div>
+          <div class='nb'>
+            <iron-icon icon="assignment"></iron-icon>
+          </div>
+        </paper-material>
 
       <paper-card heading="[[daySelected.name]]" class="day" elevation=2>
         <div class="card-content">
-          <div class="periodHeadMain">
+          <div class="periodHead">
             <paper-input is="iron-input" no-label-float value="{{daySelected.name::input}}"></paper-input>
           </div>
-          <div>
-            <paper-material class="periodHead layout horizontal" elevation=2>
-              <div class="flex">
-                Subject
-              </div>
-              <div class="tb">
-                <iron-icon icon="book"></iron-icon>
-              </div>
-              <div class='wb'>
-                <iron-icon icon="chrome-reader-mode"></iron-icon>
-              </div>
-              <div class='nb'>
-                <iron-icon icon="assignment"></iron-icon>
-              </div>
-            </paper-material>
-          </div>
+
           <iron-list id="list_periods" items="[[daySelected.period]]" as="item"  class="periodList">
             <template>
               <div>
                 <paper-material class="period layout horizontal" elevation=2>
-                  <div class="flex">
+                  <div class="flex ">
                     <paper-input is="iron-input" no-label-float value="{{item.subject::input}}"></paper-input>
                   </div>
                   <div class="tb">
@@ -128,6 +129,7 @@
           </iron-list>
         </div>
       </paper-card>
+    </div>
     </div>
 
   </template>
