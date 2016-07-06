@@ -1,54 +1,11 @@
 <dom-module id="time-table">
 
   <template>
-    <style is="custom-style" include="iron-flex iron-flex-alignment">
-    :host{
-
-      --primary-bg-color : #673AB7;
-      --primary-color : white;
-      --primary-highlighter-color : #9575CD;
-
-
-      --my-custom-color: white;
-      --paper-tab-ink: var(--primary-color);
-
-      /* custom CSS property */
-      --paper-tabs-selection-bar-color: cyan;
-
-      /* custom CSS mixin */
-      --paper-tabs: {
-          background-color: var(--primary-bg-color);
-          color: var(--primary-color); /* variable defined in default-theme.html */
-          font-size: 20px;
-      }
-    }
-      .action-container{
-        @apply(--layout-horizontal);
-        @apply(--layout-center-justified);
-
-      }
-      paper-card.actions{
-        --paper-card-header:{
-
-          text-align: center;
-          height: 0px;
-          };
-        --paper-card-content:{
-          padding:8px;
-          text-align: center;
-        };
-        --paper-card-header-text:{
-          font-size: 24px;
-          padding: 4px;
-        };
-        --paper-card-header-color: white;
-        width:100%;
-        margin: 2px;
-      }
+    <style include="shared-styles">
 
     </style>
 
-    <h1>{{title1}} - {{title2}}</h1>
+    <h3>{{title1}} - {{title2}}</h3>
     <paper-tabs selected="{{pageSel}}">
       <paper-tab><paper-icon-button icon="view-module"></paper-icon-button></paper-tab>
       <paper-tab><paper-icon-button icon="view-list"></paper-icon-button></paper-tab>
@@ -60,44 +17,36 @@
         <week-view my-table={{myTable}} page-sel={{pageSel}} day-selected={{daySelected}}></week-view>
       </div>
       <div id="page-1">
-<day-view my-table={{myTable}} page-sel={{pageSel}} day-selected={{daySelected}}></day-view>
-        <div class="action-container">
-          <paper-card class="actions">
-            <div class="card-actions layout horizontal justified">
+        <day-view my-table={{myTable}} page-sel={{pageSel}} day-selected={{daySelected}}></day-view>
+        <paper-material>
               <paper-icon-button icon="chevron-left" on-click="_prevDay"></paper-icon-button>
-              <paper-icon-button icon="settings" on-click="_editDay"></paper-icon-button>
+              <paper-icon-button icon="create" on-click="_editDay"></paper-icon-button>
               <paper-icon-button icon="chevron-right" on-click="_nextDay"></paper-icon-button>
-            </div>
-          </paper-card>
-        </div>
-
-
+        </paper-material>
       </div>
       <div id="page-2">
 <day-edit my-table={{myTable}} page-sel={{pageSel}} day-selected={{daySelected}} t1={{title1}} t2={{title2}}></day-edit>
-        <div class="action-container">
-          <paper-card class="actions">
-            <div class="layout horizontal justified card-actions ">
+
+          <paper-material>
+
               <paper-icon-button icon="chevron-left" on-click="_prevDay"></paper-icon-button>
               <paper-icon-button icon="save" on-click="handleSaveClick"></paper-icon-button>
               <paper-icon-button icon="chevron-right" on-click="_nextDay"></paper-icon-button>
-            </div>
-          </paper-card>
-        </div>
+
+          </paper-material>
+
 
 
       </div>
       <div id="page-3">
         <header-edit my-table={{myTable}} page-sel={{pageSel}} day-selected={{daySelected}} t1={{title1}} t2={{title2}}></header-edit>
-        <div class="action-container">
-          <paper-card class="actions">
-            <div class="card-actions layout horizontal justified">
-            <div>.</div>
+
+          <paper-material>
+
               <paper-icon-button icon="save" on-click="handleSaveClick"></paper-icon-button>
-              <div>.</div>
-            </div>
-          </paper-card>
-        </div>
+
+          </paper-material>
+
 
       </div>
     </iron-pages>

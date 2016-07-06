@@ -1,10 +1,10 @@
 <dom-module id="day-view">
+
   <template>
-    <style is="custom-style" include="iron-flex iron-flex-alignment">
+    <style include="shared-styles iron-flex iron-flex-alignment">
       .table-area{
         @apply(--layout-horizontal);
         @apply(--layout-center-justified);
-        font-family: sans-serif;
         font-size: 15px;
       }
       .right-bar{
@@ -15,29 +15,6 @@
       }
       iron-list.thinList{
         width: 120px;
-      }
-      paper-card.day{
-        --paper-card-header:{
-          background-color: #9575CD;
-          text-align: center;
-          height: 30px;
-          };
-        --paper-card-content:{
-          padding:8px;
-        };
-        --paper-card-header-text:{
-          font-size: 18px;
-          padding: 4px;
-        };
-        --paper-card-header-color: white;
-        margin: 2px;
-      }
-
-      .smallHead{
-        --paper-card-header-text:{
-          font-size: 15px;
-          padding: 4px;
-        };
       }
 
       .CB{
@@ -78,7 +55,6 @@
       }
 
       .wb {
-        background-colo1r:#895CD8;
         color:blue;
         width:30px;
 
@@ -91,19 +67,10 @@
       .tb {
         width:30px;
         color:maroon;
-
-      }
-      paper-icon-button {
-        --paper-icon-button-ink-color: var(--paper-orange-500);
-        background-color: #9C27B0;
-        color: white;
-        border-radius: 3px;
-        padding: 2px;
-
       }
     </style>
 
-    <div id="page-1" class="table-area">
+    <div id="page-1" class="tab-area">
       <paper-card heading="[[daySelected.name]]" class="day" elevation=2>
         <div class="card-content">
           <iron-list id="list_periods" items="[[daySelected.period]]" as="item"  class="periodList">

@@ -1,44 +1,23 @@
 <dom-module id="week-view">
   <template>
-    <style is="custom-style" include="iron-flex iron-flex-alignment">
-      iron-list.daysList{
-        height: 100%;
-      }
-      iron-list.periodList{
-        height: 210px;
-        width: 90px;
-      }
-      .table-area{
-        font-family: sans-serif;
-        font-size: 15px;
-      }
-      paper-card.day{
-        --paper-card-header:{
-          background-color: #9575CD;
-          text-align: center;
-          height: 30px;
-
-        };
-        --paper-card-content:{
-          padding:8px;
-        };
-        --paper-card-header-text:{
-          font-size: 18px;
-          padding: 4px;
-        };
-        --paper-card-header-color: white;
-        margin: 2px;
-      }
+    <style include="shared-styles iron-flex iron-flex-alignment">
       .period{
         color:#000000;
         width:90px;
         margin:4px 0 2px 0;
         padding:0px;
-
       }
+      iron-list.daysList{
+        height: 100%;
+      }
+      iron-list.periodList{
+        height: 200px;
+        width: 90px;
+      }
+
     </style>
 
-      <div id="page-0" class="table-area">
+      <div id="page-0">
         <div>
         <iron-list id="list_days" items="{{myTable.Day}}" grid="true" as="itemDay" class="daysList" selection-enabled selected-item="{{daySelected}}">
           <template>
