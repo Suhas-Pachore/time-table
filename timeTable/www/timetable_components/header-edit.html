@@ -2,49 +2,22 @@
   <template>
     <style include="shared-styles iron-flex iron-flex-alignment">
 
-      iron-list.periodList{
-        width1: 300px;
-      }
-
       .period{
-        color:#FFFFFF;
-        width:300px;
-        margin:4px 0 4px 0;
-      }
-      .subject{
-        background-color:#FFFFFF;
-        width:120px;
-        padding:0px;
+        background-color: var(--light-bg-color);
+        width:294px;
+        margin:3px;
       }
 
-      paper-icon-button {
-        --paper-icon-button-ink-color: var(--paper-orange-500);
-        background-color: #9C27B0;
-        color: white;
-        border-radius: 3px;
-        padding: 2px;
-
-      }
     </style>
 
     <div id="page-3" class="tab-area">
       <paper-card  heading="Personalize" class="day" elevation=2>
         <div class="card-content layout vertical">
           <paper-material class="period" elevation=0>
-            <div class="">
               <paper-input is="iron-input" no-label-float value="{{t1::input}}"></paper-input>
-
-            </div>
-
-
           </paper-material>
           <paper-material class="period" elevation=0>
-
-            <div class="">
-
               <paper-input is="iron-input" no-label-float value="{{t2::input}}"></paper-input>
-            </div>
-
           </paper-material>
         </div>
       </paper-card>

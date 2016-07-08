@@ -2,11 +2,6 @@
 
   <template>
     <style include="shared-styles iron-flex iron-flex-alignment">
-      .table-area{
-        @apply(--layout-horizontal);
-        @apply(--layout-center-justified);
-        font-size: 15px;
-      }
       .right-bar{
         @apply(--layout-vertical);
       }
@@ -14,69 +9,65 @@
         width: 180px;
       }
       iron-list.thinList{
-        width: 120px;
+        width: 100px;
       }
 
       .CB{
         --paper-card-header:{
-          background-color: maroon;
+          background-color: var(--paper-orange-500);
           };
       }
 
       .WB{
         --paper-card-header:{
-          background-color: blue;
+          background-color: var(--paper-blue-500);
           };
       }
 
       .NB{
         --paper-card-header:{
-          background-color: teal;
+          background-color: var(--paper-green-500);
         };
-      }
-
-      .thin{
-        width:120px;
-        font-size: 15px;
-        padding:0px;
-
       }
 
       .period{
         color:#000000;
-        width:172px;
-        margin:2px 0 2px 0;
-        padding:4px;
+        background-color: var(--light-bg-color);
+        width:160px;
+        margin:3px;
+        padding:3px;
+        height:24px;
 
       }
       .subject{
         width:90px;
-        height:24px;
+        padding: 3px;
+
       }
 
       .wb {
-        color:blue;
+        color:var(--paper-blue-500);
         width:30px;
 
       }
       .nb {
         width:30px;
-        color:teal;
+        color:var(--paper-green-500);
 
       }
       .tb {
         width:30px;
-        color:maroon;
+        color:var(--paper-orange-500);
       }
     </style>
 
     <div id="page-1" class="tab-area">
-      <paper-card heading="[[daySelected.name]]" class="day" elevation=2>
+      <paper-card heading="[[daySelected.name]]">
         <div class="card-content">
           <iron-list id="list_periods" items="[[daySelected.period]]" as="item"  class="periodList">
             <template>
               <div>
-                <paper-material class="period layout horizontal" elevation=2>
+                <paper-material class="period layout horizontal">
                   <div class="subject">
                     [[item.subject]]
                   </div>
@@ -104,8 +95,8 @@
           <div class="card-content">
             <iron-list id="list_CB" items="[[daySelected.period]]" as="item1" class="periodList thinList" >
               <template>
-                <div class="thin">
-                    <div class="thin" hidden=[[!item1.textbook]]>
+                <div>
+                    <div hidden=[[!item1.textbook]]>
                       [[item1.subject]]
                     </div>
                 </div>

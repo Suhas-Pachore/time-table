@@ -1,53 +1,53 @@
 <dom-module id="time-table">
 
   <template>
-    <style include="shared-styles">
-
+    <style is="custom-style" include="shared-styles iron-flex iron-flex-alignment">
+      .page {
+        @apply(--layout-vertical);
+        @apply(--layout-center);
+      }
+      .button-dock {
+        background-color: var(--paper-amber-900);
+        width: 305px;
+      }
     </style>
 
-    <h3>{{title1}} - {{title2}}</h3>
-    <paper-tabs selected="{{pageSel}}">
-      <paper-tab><paper-icon-button icon="view-module"></paper-icon-button></paper-tab>
-      <paper-tab><paper-icon-button icon="view-list"></paper-icon-button></paper-tab>
-      <paper-tab><paper-icon-button icon="create"></paper-icon-button></paper-tab>
-      <paper-tab><paper-icon-button icon="settings"></paper-icon-button></paper-tab>
-    </paper-tabs>
+    <!--h3>{{title1}} - {{title2}}</h3-->
+    <paper-toolbar class="medium-tall">
+      <span class="title">{{title1}} - {{title2}}</span>
+      <!--span class="bottom title">Bottom Title</span-->
+      <paper-tabs selected="{{pageSel}}" class="bottom layout flex">
+        <paper-tab><paper-icon-button icon="view-module"></paper-icon-button></paper-tab>
+        <paper-tab><paper-icon-button icon="view-list"></paper-icon-button></paper-tab>
+        <paper-tab><paper-icon-button icon="create"></paper-icon-button></paper-tab>
+        <paper-tab><paper-icon-button icon="settings"></paper-icon-button></paper-tab>
+      </paper-tabs>
+    </paper-toolbar>
     <iron-pages selected="{{pageSel}}">
       <div id="page-0">
         <week-view my-table={{myTable}} page-sel={{pageSel}} day-selected={{daySelected}}></week-view>
       </div>
-      <div id="page-1">
+      <div id="page-1" class="page">
         <day-view my-table={{myTable}} page-sel={{pageSel}} day-selected={{daySelected}}></day-view>
-        <paper-material>
-              <paper-icon-button icon="chevron-left" on-click="_prevDay"></paper-icon-button>
-              <paper-icon-button icon="create" on-click="_editDay"></paper-icon-button>
-              <paper-icon-button icon="chevron-right" on-click="_nextDay"></paper-icon-button>
+        <paper-material class="button-dock layout horizontal around-justified" elevation=2>
+          <paper-icon-button icon="chevron-left" on-click="_prevDay"></paper-icon-button>
+          <paper-icon-button icon="create" on-click="_editDay"></paper-icon-button>
+          <paper-icon-button icon="chevron-right" on-click="_nextDay"></paper-icon-button>
         </paper-material>
       </div>
-      <div id="page-2">
-<day-edit my-table={{myTable}} page-sel={{pageSel}} day-selected={{daySelected}} t1={{title1}} t2={{title2}}></day-edit>
-
-          <paper-material>
-
-              <paper-icon-button icon="chevron-left" on-click="_prevDay"></paper-icon-button>
-              <paper-icon-button icon="save" on-click="handleSaveClick"></paper-icon-button>
-              <paper-icon-button icon="chevron-right" on-click="_nextDay"></paper-icon-button>
-
+      <div id="page-2" class="page">
+        <day-edit my-table={{myTable}} page-sel={{pageSel}} day-selected={{daySelected}} t1={{title1}} t2={{title2}}></day-edit>
+          <paper-material class="button-dock layout horizontal around-justified" elevation=2>
+            <paper-icon-button icon="chevron-left" on-click="_prevDay"></paper-icon-button>
+            <paper-icon-button icon="save" on-click="handleSaveClick"></paper-icon-button>
+            <paper-icon-button icon="chevron-right" on-click="_nextDay"></paper-icon-button>
           </paper-material>
-
-
-
       </div>
-      <div id="page-3">
+      <div id="page-3" class="page">
         <header-edit my-table={{myTable}} page-sel={{pageSel}} day-selected={{daySelected}} t1={{title1}} t2={{title2}}></header-edit>
-
-          <paper-material>
-
-              <paper-icon-button icon="save" on-click="handleSaveClick"></paper-icon-button>
-
+          <paper-material class="button-dock layout horizontal around-justified" elevation=2>
+            <paper-icon-button icon="save" on-click="handleSaveClick"></paper-icon-button>
           </paper-material>
-
-
       </div>
     </iron-pages>
   </template>

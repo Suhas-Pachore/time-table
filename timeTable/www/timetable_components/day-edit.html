@@ -2,45 +2,48 @@
   <template>
     <style is="custom-style" include="shared-styles iron-flex iron-flex-alignment">
 
-
       iron-list.periodList{
         width: 300px;
       }
 
       .day-input{
         text-align: center;
+        background-color: var(--light-bg-color);
+        margin: 3px;
       }
+
       .period-header{
-        @apply(--paper-card-header);
-
-        margin:2px 0 0 0;
-        background-color: var(--light-accent-color);
-        color: #FFFFFF;
-
-      }
-      .period{
-
-        margin:1px 0 1px 0;
-
+        background-color: var(--paper-yellow-200);
+        margin: 3px;
       }
       .subject{
         text-align: center;
-        padding: 4px 0 0 0;
+        padding: 3px 0 0 0;
         @apply(--paper-card-header-text);
       }
+
+      .period{
+        margin:3px;
+        background-color: var(--light-bg-color);
+      }
+
       .wb {
         width:30px;
-        padding: 4px;
-
+        padding: 3px;
+        color: var(--paper-blue-500);
+        --paper-checkbox-checked-color: var(--paper-blue-500);
       }
       .nb {
         width:30px;
-        padding: 4px;
+        padding: 3px;
+        color: var(--paper-green-500);
+        --paper-checkbox-checked-color: var(--paper-green-500);
       }
       .tb {
         width:30px;
-        padding: 4px;
-
+        padding: 3px;
+        color: var(--paper-orange-500);
+        --paper-checkbox-checked-color: var(--paper-orange-500);
       }
 
     </style>
@@ -49,13 +52,13 @@
       <div>
 
 
-      <paper-card heading="[[daySelected.name]]" class="day" elevation=2>
+      <paper-card heading="[[daySelected.name]]">
         <div class="card-content">
           <div class="day-input">
             <paper-input is="iron-input" no-label-float value="{{daySelected.name::input}}"></paper-input>
           </div>
 
-          <paper-material class="period-header layout horizontal" elevation=1>
+          <div class="period-header layout horizontal">
             <div class="flex subject">
               Subject
             </div>
@@ -68,30 +71,23 @@
             <div class='nb'>
               <iron-icon icon="assignment"></iron-icon>
             </div>
-          </paper-material>
+          </div>
 
           <iron-list id="list_periods" items="[[daySelected.period]]" as="item"  class="periodList">
             <template>
               <div>
-                <paper-material class="period layout horizontal" elevation=2>
+                <paper-material class="period layout horizontal" elevation=0>
                   <div class="flex ">
                     <paper-input is="iron-input" no-label-float value="{{item.subject::input}}"></paper-input>
                   </div>
                   <div class="tb">
-                    <iron-icon1 icon="book" hidden=[[!item.textbook]]></iron-icon1>
-                    <paper-checkbox checked={{item.textbook}}></paper-checkbox>
-
+                    <paper-checkbox class="tb" checked={{item.textbook}}></paper-checkbox>
                   </div>
                   <div class='wb'>
-                    <iron-icon1 icon="content-copy" hidden=[[!item.workbook]]></iron-icon1>
-
-                    <paper-checkbox checked={{item.workbook}}></paper-checkbox>
-
+                    <paper-checkbox class='wb' checked={{item.workbook}}></paper-checkbox>
                   </div>
                   <div class='nb'>
-                    <iron-icon1 icon="assignment" hidden=[[!item.notebook]]></iron-icon1>
-
-                    <paper-checkbox checked={{item.notebook}}></paper-checkbox>
+                    <paper-checkbox class='nb' checked={{item.notebook}}></paper-checkbox>
                   </div>
                 </paper-material>
               </div>

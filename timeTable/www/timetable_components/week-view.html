@@ -3,16 +3,17 @@
     <style include="shared-styles iron-flex iron-flex-alignment">
       .period{
         color:#000000;
-        width:90px;
-        margin:4px 0 2px 0;
-        padding:0px;
+        background-color: var(--light-bg-color);
+        width:66px;
+        margin:3px;
+        padding:3px;
       }
       iron-list.daysList{
         height: 100%;
       }
       iron-list.periodList{
-        height: 200px;
-        width: 90px;
+        height: 234px;
+        width: 78px;
       }
 
     </style>
@@ -27,14 +28,10 @@
                   <iron-list id="list_periods" items="[[itemDay.period]]" as="item"  class="periodList">
                     <template>
                       <div>
-                        <paper-material class="subjects" elevation=1>
-                          <div class="period">
+                        <paper-material class="period">
+
                             [[item.subject]]
-                          </div>
-                          <!--div class="card-actions">
-                            <paper-icon-button icon="favorite"></paper-icon-button>
-                            <paper-icon-button icon="bookmark"></paper-icon-button>
-                          </div-->
+
                         </paper-material>
                       </div>
                     </template>

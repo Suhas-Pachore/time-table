@@ -24,15 +24,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   :root {
     --primary-text-color: var(--paper-grey-900);
     --primary-background-color: #ffffff;
-    --secondary-text-color: #737373;
+    --secondary-text-color: var(--paper-grey-300);
     --disabled-text-color: #9b9b9b;
     --divider-color: #dbdbdb;
-    --primary-color: var(--paper-indigo-500);
-    --light-primary-color: var(--paper-indigo-100);
-    --dark-primary-color: var(--paper-indigo-700);
-    --accent-color: var(--paper-pink-a200);
-    --light-accent-color: var(--paper-pink-a100);
-    --dark-accent-color: var(--paper-pink-a400);
+    --primary-color: var(--paper-red-500);
+    --light-primary-color: var(--paper-red-200);
+    --dark-primary-color: var(--paper-red-900);
+    --accent-color: var(--paper-orange-500);
+    --light-accent-color: var(--paper-orange-200);
+    --dark-accent-color: var(--paper-orange-900);
+    --very-light-accent-color: var(--paper-orange-50);
+    --light-bg-color: var(--paper-yellow-50);
     /* Components */
     /* paper-drawer-panel */
     --drawer-menu-color: #ffffff;
@@ -43,20 +45,27 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     --menu-link-color: #111111;
 
     /* paper-tabs */
-    --paper-tabs-selection-bar-color: red;
-    --paper-tabs:{
-      background-color: var(--primary-color);
-      color: var(--light-accent-color); /* variable defined in default-theme.html */
+
+    --paper-tabs-commented:{
+      background-color: var(--dark-primary-color);
+      color: var(--secondary-text-color); /* variable defined in default-theme.html */
     };
+
+    /* paper-toolbar */
+
+    --paper-toolbar-title: {
+      margin: 0;
+      text-align: center;
+    }
 
     /* paper-card */
     --paper-card-header:{
-      background-color: var(--dark-accent-color);
+      background-color: var(--dark-primary-color);
       text-align: center;
       height: 30px;
     };
     --paper-card-content:{
-      padding:8px;
+      padding:3px;
     };
     --paper-card-header-text:{
       font-size: 18px;
@@ -65,8 +74,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     --paper-card-header-color: white;
 
     /* paper-checkbox */
-    --paper-checkbox-checked-color: var(--paper-pink-a200);
+    --paper-checkbox-checked-color: var(--paper-red-a200);
 
+    /*paper-input*/
+    --paper-input-container:{
+      padding: 0 6px 0 6px
+    }
   }
   /* General styles */
   body {
