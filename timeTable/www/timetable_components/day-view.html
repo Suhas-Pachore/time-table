@@ -93,7 +93,7 @@
       <div class="right-bar">
         <paper-card heading="Cont Books" class="day CB">
           <div class="card-content">
-            <iron-list id="list_CB" items="[[daySelected.period]]" as="item1" class="periodList thinList" >
+            <!--iron-list id="list_CB" items="[[daySelected.period]]" as="item1" class="periodList thinList" >
               <template>
                 <div>
                     <div hidden=[[!item1.textbook]]>
@@ -101,35 +101,38 @@
                     </div>
                 </div>
               </template>
-            </iron-list>
+            </iron-list-->
+            <template is="dom-repeat" items="[[daySelected.period]]">
+              <div hidden=[[!item.textbook]]>[[item.subject]]</div>
+            </template>
           </div>
         </paper-card>
 
         <paper-card heading="Work Books" class="day WB">
           <div class="card-content">
-            <iron-list id="list_WB" items="[[daySelected.period]]" as="item2" class="periodList thinList" >
-              <template>
+            <!--iron-list id="list_WB" items="[[daySelected.period]]" as="item2" class="periodList thinList" -->
+              <template is="dom-repeat" items="[[daySelected.period]]">
                 <div class="thin">
-                    <div class="thin" hidden=[[!item2.workbook]]>
-                      [[item2.subject]]
+                    <div class="thin" hidden=[[!item.workbook]]>
+                      [[item.subject]]
                     </div>
                 </div>
               </template>
-            </iron-list>
+            <!--</iron-list>-->
           </div>
         </paper-card>
 
         <paper-card heading="Note Books" class="day NB">
           <div class="card-content">
-            <iron-list id="list_NB" items="[[daySelected.period]]" as="item3" class="periodList thinList" >
-              <template>
+            <!--iron-list id="list_NB" items="[[daySelected.period]]" as="item3" class="periodList thinList" -->
+              <template is="dom-repeat" items="[[daySelected.period]]">
                 <div class="thin">
-                    <div class="thin" hidden=[[!item3.notebook]]>
-                      [[item3.subject]]
+                    <div class="thin" hidden=[[!item.notebook]]>
+                      [[item.subject]]
                     </div>
                 </div>
               </template>
-            </iron-list>
+            <!--</iron-list>-->
           </div>
         </paper-card>
       </div>
@@ -159,10 +162,7 @@
       },
 
       attached: function(){
-        //document.getElementById('list_days').fire('iron-resize');
-        document.getElementById('list_CB').fire('iron-resize');
-        document.getElementById('list_WB').fire('iron-resize');
-        document.getElementById('list_NB').fire('iron-resize');
+        document.getElementById('list_periods').fire('iron-resize');
       }
 
     });

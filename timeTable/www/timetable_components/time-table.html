@@ -113,9 +113,6 @@
           currDay=1;
         }
         daySelector.selectItem(currDay-1);
-        document.getElementById('list_CB').fire('iron-resize');
-        document.getElementById('list_WB').fire('iron-resize');
-        document.getElementById('list_NB').fire('iron-resize');
       },
       _prevDay:function(e){
 
@@ -128,9 +125,6 @@
           currDay=6;
         }
         daySelector.selectItem(currDay-1);
-        document.getElementById('list_CB').fire('iron-resize');
-        document.getElementById('list_WB').fire('iron-resize');
-        document.getElementById('list_NB').fire('iron-resize');
       },
       _editDay:function(e){
         this.pageSel=2;
@@ -139,9 +133,6 @@
         document.getElementById('list_days').fire('iron-resize');
         document.getElementById('list_periods').fire('iron-resize');
         document.getElementById('list_days').selectItem(2);
-        document.getElementById('list_CB').fire('iron-resize');
-        document.getElementById('list_WB').fire('iron-resize');
-        document.getElementById('list_NB').fire('iron-resize');
       },
 
       loadJSON: function(callback) {
