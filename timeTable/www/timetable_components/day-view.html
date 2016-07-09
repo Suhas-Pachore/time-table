@@ -33,7 +33,7 @@
       .period{
         color:#000000;
         background-color: var(--light-bg-color);
-        width:160px;
+        width:166px;
         margin:3px;
         padding:3px;
         height:24px;
@@ -64,23 +64,23 @@
     <div id="page-1" class="tab-area">
       <paper-card heading="[[daySelected.name]]">
         <div class="card-content">
-          <iron-list id="list_periods" items="[[daySelected.period]]" as="item"  class="periodList">
+          <iron-list id="list_periods" items="{{daySelected.period}}" as="item"  class="periodList">
             <template>
               <div>
                 <paper-material class="period layout horizontal">
                   <div class="subject">
-                    [[item.subject]]
+                    {{item.subject}}
                   </div>
                   <div class="tb">
-                    <iron-icon icon="book" hidden=[[!item.textbook]]></iron-icon>
+                    <iron-icon icon="book" hidden$=[[!item.textbook]]></iron-icon>
 
                   </div>
                   <div class='wb'>
-                    <iron-icon icon="chrome-reader-mode" hidden=[[!item.workbook]]></iron-icon>
+                    <iron-icon icon="chrome-reader-mode" hidden$=[[!item.workbook]]></iron-icon>
 
                   </div>
                   <div class='nb'>
-                    <iron-icon icon="assignment" hidden=[[!item.notebook]]></iron-icon>
+                    <iron-icon icon="assignment" hidden$=[[!item.notebook]]></iron-icon>
 
                   </div>
                 </paper-material>

@@ -25,12 +25,12 @@
             <div id="[[index]]" on-click="handleDayClick">
               <paper-card heading="[[itemDay.name]]" class="day" elevation=2>
                 <div class="card-content">
-                  <iron-list id="list_periods" items="[[itemDay.period]]" as="item"  class="periodList">
+                  <iron-list id="list_periods" items="{{itemDay.period}}" as="item"  class="periodList">
                     <template>
                       <div>
                         <paper-material class="period">
 
-                            [[item.subject]]
+                            {{item.subject}}
 
                         </paper-material>
                       </div>
