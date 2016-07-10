@@ -11,7 +11,7 @@
     </style>
 
     <div id="page-3" class="tab-area">
-      <paper-card  heading="Personalize" class="day" elevation=2>
+      <paper-card  heading="Personalize" elevation=2>
         <div class="card-content layout vertical">
           <paper-material class="period" elevation=0>
               <paper-input is="iron-input" no-label-float value="{{t1::input}}"></paper-input>
@@ -21,10 +21,21 @@
           </paper-material>
         </div>
       </paper-card>
-</div>
 
+      <paper-card  heading="Set Day Names" elevation=2>
+        <div class="card-content layout vertical">
+          <template is="dom-repeat" items="{{myTable.Day}}">
+            <paper-material class="period" elevation=0>
+                <paper-input is="iron-input" no-label-float value="{{item.name::input}}"></paper-input>
+            </paper-material>
+          </template>
+        </div>
+      </paper-card>
 
     </div>
+
+
+
 
   </template>
 
