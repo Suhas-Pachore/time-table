@@ -22,6 +22,7 @@
         <paper-tab><paper-icon-button icon="view-list"></paper-icon-button></paper-tab>
         <paper-tab><paper-icon-button icon="create"></paper-icon-button></paper-tab>
         <paper-tab><paper-icon-button icon="settings"></paper-icon-button></paper-tab>
+        <paper-tab>CAL</paper-tab>
       </paper-tabs>
     </paper-toolbar>
     <iron-pages selected="{{pageSel}}">
@@ -49,6 +50,9 @@
           <paper-material class="button-dock layout horizontal around-justified" elevation=2>
             <paper-icon-button icon="save" on-click="handleSaveClick"></paper-icon-button>
           </paper-material>
+      </div>
+      <div id="page-3" class="page">
+        <school-cal></school-cal>
       </div>
     </iron-pages>
   </template>

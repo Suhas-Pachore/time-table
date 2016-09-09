@@ -1,0 +1,248 @@
+<dom-module id="school-cal">
+  <template>
+    <style include="shared-styles iron-flex iron-flex-alignment">
+    iron-list.periodList{
+      width: 380px;
+      height: 500px;
+    }
+
+
+      .period{
+        color:#000000;
+        background-color: var(--light-bg-color);
+        width:320px;
+        margin:3px;
+        padding:3px;
+        height:32px;
+
+      }
+
+
+
+      .subject{
+        width:210px;
+        padding: 3px;
+
+      }
+
+      .wb {
+        color:var(--paper-blue-500);
+        width:120px;
+
+      }
+
+      .holiday{
+        color:red;
+      }
+
+    </style>
+
+    <div id="page-4" class="tab-area">
+      <paper-card  heading="School Calendar Edit" elevation=2 hidden$="{{!editMode}}">
+        <div>
+          {{daySelectedForEdit.date}}
+        </div>
+        <div>
+          Holiday : <paper-checkbox checked={{daySelectedForEdit.skip}}></paper-checkbox>
+        </div>
+        <div>
+          <paper-input is="iron-input" no-label-float value="{{daySelectedForEdit.remark::input}}"></paper-input>
+          <paper-input is="iron-input" no-label-float value="{{daySelectedForEdit.day::input}}"></paper-input>
+        </div>
+        <div class="card-actions">
+          <paper-icon-button icon="save" on-click="handleSaveClick"></paper-icon-button>
+          <paper-icon-button icon="create" on-click="handleCancelClick"></paper-icon-button>
+        </div>
+      </paper-card>
+
+      <paper-card  heading="School Calendar" elevation=2 hidden$={{editMode}}>
+        <div class="card-content">
+          <iron-list id="list_days" items="{{schalendar}}" class="periodList" selection-enabled selected-item="{{daySelectedForEdit}}">
+
+          <template>
+            <paper-material class="period layout horizontal" on-tap="editSchalendar">
+
+              <div class="subject">
+                [[_localeDate(item.date)]]
+              </div>
+              <div class="wb" hidden$={{item.skip}}>
+                Day-{{item.day}}
+              </div>
+              <div class="wb holiday" hidden$={{!item.skip}}>
+                {{item.remark}}
+              </div>
+
+            </paper-material>
+
+          </template>
+        </iron-list>
+        </div>
+      </paper-card>
+
+
+    </div>
+
+  </template>
+
+  <script>
+    Polymer({
+      is:"school-cal",
+      properties:{
+        selectedMonthNumber: {
+          type: Number,
+          value: (new Date()).getMonth()
+        },
+        editMode: {
+          type: Boolean,
+          value: false
+        }
+      },
+      _localeDate: function(dateobj){
+        return dateobj.toDateString() ;
+      },
+      editSchalendar: function(e){
+        this.editMode = true;
+        var dayClickedIdx = e.currentTarget.id -1 + 1;
+        this.daySelectedForEdit = this.schalendar[dayClickedIdx];
+      },
+      handleSaveClick: function(){
+        this.markDayNames();
+        this.editMode = false;
+      },
+      handleCancelClick: function(){
+        this.editMode = false;
+      },
+      ready: function(){
+        var calendarStartDate = this.getStartDate();
+        var calendarEndDate = new Date(calendarStartDate.getFullYear()+1,calendarStartDate.getMonth(),calendarStartDate.getDate());
+        this.millisecondsInDay = (24 * 60 * 60 * 1000);
+
+        this.schalendar = this.init(calendarStartDate, calendarEndDate);
+        this.getSaturdays(calendarStartDate, calendarEndDate);
+        this.getSundays(calendarStartDate, calendarEndDate);
+        this.getHolidays(calendarStartDate, calendarEndDate);
+        this.markDayNames();
+
+        console.log(this.schalendar);
+      },
+
+      selectedMonth: function(item){
+        var thisdate = new Date(item.date);
+
+        return(thisdate.getMonth() == this.selectedMonthNumber)
+      },
+
+      attached: function(){
+        //document.getElementById('list_days').fire('iron-resize');
+
+      },
+
+      getStartDate: function(){
+        var today = new Date();
+        var startMonth = 4;
+        var startDate = 1;
+
+        if(today < new Date(today.getFullYear(), startMonth, startDate)){
+          return new Date(today.getFullYear()-1, startMonth, startDate);
+        }
+        else{
+          return new Date(today.getFullYear(), startMonth, startDate);
+        }
+      },
+
+      //fucntion to print all sundays
+      init: function (calendarStartDate, calendarEndDate){
+        var totdays = (Number(calendarEndDate) - Number(calendarStartDate))/this.millisecondsInDay;
+        var schalendar = [];
+        for(var i=0; i<totdays; i++){
+          schalendar[i] = {
+            daynum: i,
+            skip: false,
+            date: new Date(Number(calendarStartDate)+i*this.millisecondsInDay),
+            remark: 'init'
+          };
+        }
+
+        return schalendar;
+      },
+
+      //fucntion to print all sundays
+      getSundays: function (calendarStartDate, calendarEndDate){
+        var weekdayStart = calendarStartDate.getDay();
+
+        //if the first day itself is Sunday, manage to get sunday offset as zero
+        if(weekdayStart == 0){
+          weekdayStart = 7;
+        }
+
+        var sundayOffset = 7 - weekdayStart;
+        var sunday = Number(calendarStartDate) + this.millisecondsInDay *sundayOffset;
+
+        while(true){
+          this.schalendar[sundayOffset].skip = true;
+          this.schalendar[sundayOffset].remark = 'Sunday';
+
+          sunday = sunday + this.millisecondsInDay * 7;
+          sundayOffset += 7;
+          if(sunday > calendarEndDate){
+            break;
+          }
+        }
+      },
+
+      //function to get 2nd and 4th Saturdays of each month
+      getSaturdays: function (calendarStartDate, calendarEndDate){
+        //for each month
+        for(i=0; i<12; i++){
+          var monthStartDate = (new Date(calendarStartDate.getFullYear(), calendarStartDate.getMonth()+i, 1));
+          var weekdayStart = monthStartDate.getDay();
+          var offsetForFirstSat = 6 - weekdayStart;
+          var satFirst = Number(monthStartDate) + this.millisecondsInDay *offsetForFirstSat;
+          var saturdayOffset = ((satFirst-Number(calendarStartDate))/this.millisecondsInDay)+7; //this is second saturday of the month
+
+          this.schalendar[saturdayOffset].skip = true;
+          this.schalendar[saturdayOffset].remark = '2nd Saturday';
+
+          saturdayOffset += 14; //this is fourth saturday of the month
+          this.schalendar[saturdayOffset].skip = true;
+          this.schalendar[saturdayOffset].remark = '4th Saturday';
+        }
+      },
+
+      getHolidays: function (calendarStartDate, calendarEndDate){
+        //form array of holidays
+        var holidays = ['2016-09-05','2016-09-14','2016-09-28'];
+        for(var i=0; i<holidays.length; i++){
+          var holDate = new Date(holidays[i].substring(0,4),holidays[i].substring(5,7)-1,holidays[i].substring(8,10));
+          var holOffset = (Number(holDate)-Number(calendarStartDate))/this.millisecondsInDay;
+          this.schalendar[holOffset].skip = true;
+          this.schalendar[holOffset].remark = 'holiday';
+        }
+      },
+
+      markDayNames: function (){
+        var dayNum = -1;
+        var newSchalendar = [];
+
+        for(var i=0; i<this.schalendar.length; i++){
+
+          this.schalendar[i].skip ? (dayNum += 0) : (dayNum += 1);
+          newSchalendar[i] =
+            {
+              daynum: i,
+              skip: this.schalendar[i].skip,
+              date: this.schalendar[i].date,
+              remark: this.schalendar[i].remark,
+              day: dayNum%6+1
+            };
+
+        }
+
+        this.set('schalendar',newSchalendar);
+      }
+
+
+    });
+
+  </script>
+</dom-module>
