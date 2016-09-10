@@ -1,81 +1,98 @@
 <dom-module id="school-cal">
   <template>
     <style include="shared-styles iron-flex iron-flex-alignment">
-    iron-list.periodList{
-      width: 380px;
-      height: 500px;
-    }
 
 
       .period{
         color:#000000;
         background-color: var(--light-bg-color);
-        width:320px;
+        width:294px;
         margin:3px;
         padding:3px;
         height:32px;
-
       }
-
-
-
-      .subject{
-        width:210px;
+    .subject{
+        width:145px;
         padding: 3px;
-
       }
 
       .wb {
-        color:var(--paper-blue-500);
-        width:120px;
-
+        color:var(--paper-indigo-500);
+        width:108px;
       }
 
       .holiday{
-        color:red;
+        color:var(--paper-pink-500);
+      }
+
+      .marker{
+        margin-right: 6px;
+        color: var(--paper-deep-orange-500);
+        width:30px;
+      }
+      .page {
+        @apply(--layout-vertical);
+        @apply(--layout-center);
+      }
+      .button-dock {
+        background-color: var(--paper-amber-900);
+        width: 305px;
+        margin: 6px 0 18px 0;
       }
 
     </style>
 
     <div id="page-4" class="tab-area">
-      <paper-card  heading="School Calendar Edit" elevation=2 hidden$="{{!editMode}}">
-        <div>
-          {{daySelectedForEdit.date}}
-        </div>
-        <div>
-          Holiday : <paper-checkbox checked={{daySelectedForEdit.skip}}></paper-checkbox>
-        </div>
-        <div>
-          <paper-input is="iron-input" no-label-float value="{{daySelectedForEdit.remark::input}}"></paper-input>
-          <paper-input is="iron-input" no-label-float value="{{daySelectedForEdit.day::input}}"></paper-input>
-        </div>
-        <div class="card-actions">
-          <paper-icon-button icon="save" on-click="handleSaveClick"></paper-icon-button>
-          <paper-icon-button icon="create" on-click="handleCancelClick"></paper-icon-button>
-        </div>
-      </paper-card>
+      <div hidden$="{{!editMode}}" class="page">
+        <paper-card  heading="School Calendar Edit" elevation=2 >
+          <div class="card-content layout vertical">
+            <paper-material class="period" elevation=0>
+              {{_localeDate(daySelectedForEdit.date)}}
+            </paper-material>
+            <paper-material class="period" elevation=0 hidden$="{{_isWeekend(daySelectedForEdit.daytype)}}">
+              Holiday : <paper-checkbox checked={{daySelectedForEdit.skip}}></paper-checkbox>
+            </paper-material>
+            <paper-material class="period" elevation=0 hidden$="{{_isWeekend(daySelectedForEdit.daytype)}}">
+              <paper-input is="iron-input" no-label-float value="{{daySelectedForEdit.remark::input}}"></paper-input>
+            </paper-material>
+            <paper-material class="period" elevation=0 hidden$="{{!_isWeekend(daySelectedForEdit.daytype)}}">
+              {{daySelectedForEdit.daytype}} : {{daySelectedForEdit.remark}}
+            </paper-material>
+          </div>
 
-      <paper-card  heading="School Calendar" elevation=2 hidden$={{editMode}}>
+
+        </paper-card>
+
+        <paper-material class="button-dock layout horizontal around-justified" elevation=2>
+          <paper-icon-button id='{{daySelectedForEdit.daynum}}' icon="check-circle" on-click="handleSaveClick"></paper-icon-button>
+        </paper-material>
+      </div>
+
+      <paper-card   heading="School Calendar" elevation=2 hidden$={{editMode}}>
         <div class="card-content">
-          <iron-list id="list_days" items="{{schalendar}}" class="periodList" selection-enabled selected-item="{{daySelectedForEdit}}">
+          <!-- <iron-list id="list_days" items="{{schalendar}}" class="periodList" selection-enabled selected-item="{{daySelectedForEdit}}"> -->
 
-          <template>
-            <paper-material class="period layout horizontal" on-tap="editSchalendar">
+          <template is="dom-repeat" items="{{schalendar}}" class="periodList" filter="_filterCal">
+            <paper-material id="{{item.daynum}}" class="period layout horizontal" on-tap="editSchalendar">
 
-              <div class="subject">
-                [[_localeDate(item.date)]]
-              </div>
-              <div class="wb" hidden$={{item.skip}}>
-                Day-{{item.day}}
-              </div>
-              <div class="wb holiday" hidden$={{!item.skip}}>
-                {{item.remark}}
-              </div>
+                <div class="subject">
+                  [[_localeDate(item.date)]]
+
+                </div>
+                <div class="marker">
+                  <iron-icon icon="alarm" hidden$={{!_isToday(item.daynum)}}></iron-icon>
+                </div>
+                <div class="wb" hidden$={{item.skip}}>
+                  Day {{item.day}}
+                </div>
+                <div class="wb holiday" hidden$={{!item.skip}}>
+                  {{item.remark}}
+                </div>
 
             </paper-material>
 
           </template>
-        </iron-list>
+        <!-- </iron-list> -->
         </div>
       </paper-card>
 
@@ -88,24 +105,56 @@
     Polymer({
       is:"school-cal",
       properties:{
-        selectedMonthNumber: {
-          type: Number,
-          value: (new Date()).getMonth()
-        },
         editMode: {
           type: Boolean,
           value: false
+        },
+        todayObj:{
+          type: Object,
+          notify:true
+        }
+      },
+      _isWeekend: function(daytype){
+        return(daytype==='Weekend');
+      },
+      _isToday: function(itemdaynum){
+        var itemdate = this.schalendar[itemdaynum].date;
+        var diff = (Number(itemdate) - Number(this.today));
+        if(diff >= -0.75 * this.millisecondsInDay && diff < 0.25 * this.millisecondsInDay){
+          this.todayObj = this.schalendar[itemdaynum];
+          //console.log('setting todayNum',this.todayNum);
+          return true;
+        } else {
+          return false;
         }
       },
       _localeDate: function(dateobj){
-        return dateobj.toDateString() ;
+        if(dateobj){
+          return dateobj.toDateString() ;
+        }
+        else {
+          return undefined;
+        }
       },
       editSchalendar: function(e){
         this.editMode = true;
         var dayClickedIdx = e.currentTarget.id -1 + 1;
         this.daySelectedForEdit = this.schalendar[dayClickedIdx];
       },
-      handleSaveClick: function(){
+      handleSaveClick: function(e){
+
+        if(this.daySelectedForEdit.skip){
+          if(this._isWeekend(this.daySelectedForEdit.daytype)){
+            //none
+          } else{
+            this.daySelectedForEdit.daytype = 'Holiday';
+          }
+
+        } else{
+          this.daySelectedForEdit.daytype = 'Weekday';
+        }
+
+
         this.markDayNames();
         this.editMode = false;
       },
@@ -113,6 +162,7 @@
         this.editMode = false;
       },
       ready: function(){
+        this.today = new Date();
         var calendarStartDate = this.getStartDate();
         var calendarEndDate = new Date(calendarStartDate.getFullYear()+1,calendarStartDate.getMonth(),calendarStartDate.getDate());
         this.millisecondsInDay = (24 * 60 * 60 * 1000);
@@ -121,15 +171,16 @@
         this.getSaturdays(calendarStartDate, calendarEndDate);
         this.getSundays(calendarStartDate, calendarEndDate);
         this.getHolidays(calendarStartDate, calendarEndDate);
-        this.markDayNames();
+
 
         console.log(this.schalendar);
       },
 
-      selectedMonth: function(item){
-        var thisdate = new Date(item.date);
+      _filterCal: function(item){
 
-        return(thisdate.getMonth() == this.selectedMonthNumber)
+        var diff = (Number(item.date) - Number(this.today));
+
+        return(diff >= -7 *this.millisecondsInDay);
       },
 
       attached: function(){
@@ -159,7 +210,8 @@
             daynum: i,
             skip: false,
             date: new Date(Number(calendarStartDate)+i*this.millisecondsInDay),
-            remark: 'init'
+            remark: '',
+            daytype: 'Weekday'
           };
         }
 
@@ -181,6 +233,7 @@
         while(true){
           this.schalendar[sundayOffset].skip = true;
           this.schalendar[sundayOffset].remark = 'Sunday';
+          this.schalendar[sundayOffset].daytype = 'Weekend';
 
           sunday = sunday + this.millisecondsInDay * 7;
           sundayOffset += 7;
@@ -202,43 +255,101 @@
 
           this.schalendar[saturdayOffset].skip = true;
           this.schalendar[saturdayOffset].remark = '2nd Saturday';
+          this.schalendar[saturdayOffset].daytype = 'Weekend';
 
           saturdayOffset += 14; //this is fourth saturday of the month
           this.schalendar[saturdayOffset].skip = true;
           this.schalendar[saturdayOffset].remark = '4th Saturday';
+          this.schalendar[saturdayOffset].daytype = 'Weekend';
         }
       },
 
       getHolidays: function (calendarStartDate, calendarEndDate){
         //form array of holidays
-        var holidays = ['2016-09-05','2016-09-14','2016-09-28'];
-        for(var i=0; i<holidays.length; i++){
-          var holDate = new Date(holidays[i].substring(0,4),holidays[i].substring(5,7)-1,holidays[i].substring(8,10));
-          var holOffset = (Number(holDate)-Number(calendarStartDate))/this.millisecondsInDay;
-          this.schalendar[holOffset].skip = true;
-          this.schalendar[holOffset].remark = 'holiday';
+        //var holidays = ['2016-09-05','2016-09-14','2016-09-28'];
+
+        var self = this;
+        self.loadJSON(function(response) {
+         // Parse JSON string into object
+           //console.log('holidays',localStorage["holidays"]);
+           var holidays = JSON.parse(response);
+           for(var i=0; i<holidays.length; i++){
+             var holDate = new Date(holidays[i].date.substring(0,4),holidays[i].date.substring(5,7)-1,holidays[i].date.substring(8,10));
+             var holOffset = (Number(holDate)-Number(calendarStartDate))/self.millisecondsInDay;
+             self.schalendar[holOffset].skip = true;
+             self.schalendar[holOffset].remark = holidays[i].remarks;
+             self.schalendar[holOffset].daytype = 'Holiday';
+           }
+
+           self.markDayNames();
+
+        });
+
+      },
+
+      loadJSON: function(callback) {
+        if(localStorage.holidays){
+          //console.log("picking from localStorage:"+localStorage.holidays);
+          callback((localStorage["holidays"]));
         }
+        else{
+         var xobj = new XMLHttpRequest();
+         xobj.overrideMimeType("application/json");
+         xobj.open('GET', 'holidays.json', true); // Replace 'my_data' with the path to your file
+         xobj.onreadystatechange = function () {
+               if (xobj.readyState == 4 && xobj.status == "200") {
+                 // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
+                 localStorage["holidays"]=xobj.responseText;
+                 callback(xobj.responseText);
+               }
+         };
+         xobj.send(null);
+       }
       },
 
       markDayNames: function (){
         var dayNum = -1;
         var newSchalendar = [];
+        var newHolidays = [];
 
         for(var i=0; i<this.schalendar.length; i++){
 
-          this.schalendar[i].skip ? (dayNum += 0) : (dayNum += 1);
+          //this.schalendar[i].skip ? (dayNum += 0) : (dayNum += 1);
+          if(this.schalendar[i].skip){
+            //don't change the dayNum
+            //dayNum += 0;
+            if(this.schalendar[i].daytype == 'Holiday') {
+              var monthStr = String(Number(this.schalendar[i].date.getMonth())+1);
+              (monthStr.length == 1) ? (monthStr='0'+monthStr) : (monthStr=monthStr);
+
+              var dayStr = String(this.schalendar[i].date.getDate());
+              (dayStr.length == 1) ? (dayStr='0'+dayStr) : (dayStr=dayStr);
+
+              //set the day in new holiday array
+              newHolidays.push({"date":this.schalendar[i].date.getFullYear()+'-'+monthStr+'-'+dayStr, "remarks": this.schalendar[i].remark});
+            }
+          } else {
+            dayNum += 1;
+          }
+
           newSchalendar[i] =
             {
               daynum: i,
               skip: this.schalendar[i].skip,
               date: this.schalendar[i].date,
               remark: this.schalendar[i].remark,
-              day: dayNum%6+1
+              day: (this.schalendar[i].skip)?(dayNum%6+1+1):(dayNum%6+1),
+              daytype: this.schalendar[i].daytype
             };
+
+
 
         }
 
         this.set('schalendar',newSchalendar);
+
+        localStorage["holidays"]=JSON.stringify(newHolidays);
+        //console.log('saving new holidays array',localStorage["holidays"]);
       }
 
 

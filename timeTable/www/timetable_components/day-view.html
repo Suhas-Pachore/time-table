@@ -30,6 +30,12 @@
         };
       }
 
+      .TODAY{
+        --paper-card-header:{
+          background-color: var(--paper-brown-500);
+        };
+      }
+
       .period{
         color:#000000;
         background-color: var(--light-bg-color);
@@ -64,8 +70,8 @@
     <div id="page-1" class="tab-area">
       <paper-card heading="[[daySelected.name]]">
         <div class="card-content">
-          <iron-list id="list_periods" items="{{daySelected.period}}" as="item"  class="periodList">
-            <template>
+          <!-- <iron-list id="list_periods" items="{{daySelected.period}}" as="item"  class="periodList"> -->
+            <template is="dom-repeat" items="{{daySelected.period}}" as="item"  class="periodList">
               <div>
                 <paper-material class="period layout horizontal">
                   <div class="subject">
@@ -86,11 +92,35 @@
                 </paper-material>
               </div>
             </template>
-          </iron-list>
+          <!-- </iron-list> -->
         </div>
       </paper-card>
 
       <div class="right-bar">
+        <paper-card heading="{{_getWeekdayName(toDay.date)}}" class="day TODAY">
+          <div class="card-content">
+            <!--iron-list id="list_NB" items="[[daySelected.period]]" as="item3" class="periodList thinList" -->
+
+                <div class="thin">
+                  <div class="thin">
+                    [[_localeDate(toDay.date)]]
+                  </div>
+                  <div class="thin" hidden$={{toDay.skip}}>
+                    [[toDay.daytype]] :- [[toDay.day]]
+                  </div>
+                  <!-- <div class="thin" hidden$={{!toDay.skip}}>
+                    [[toDay.daytype]] :-
+                  </div> -->
+                  <div class="thin" hidden$={{!toDay.skip}}>
+                      [[toDay.remark]]
+                  </div>
+
+                </div>
+
+            <!--</iron-list>-->
+          </div>
+        </paper-card>
+
         <paper-card heading="Cont Books" class="day CB">
           <div class="card-content">
             <!--iron-list id="list_CB" items="[[daySelected.period]]" as="item1" class="periodList thinList" >
@@ -135,6 +165,9 @@
             <!--</iron-list>-->
           </div>
         </paper-card>
+
+
+
       </div>
 
     </div>
@@ -155,12 +188,54 @@
         daySelected:{
           type: Object,
           notify: true
-        }
+        },
+        toDay: Object
       },
       ready: function(){
         //console.log('eek-view',JSON.stringify(this.myTable));
       },
-
+      _localeDate: function(dateobj){
+        if(dateobj){
+          return dateobj.toDateString() ;
+        }
+        else {
+          return undefined;
+        }
+      },
+      _getWeekdayName: function(dateobj){
+        var dayName;
+        if(dateobj){
+          switch (dateobj.getDay()) {
+            case 0:
+              dayName='Sunday';
+              break;
+            case 1:
+              dayName='Monday';
+              break;
+            case 2:
+              dayName='Tuesday';
+              break;
+            case 3:
+              dayName='Wednesday';
+              break;
+            case 4:
+              dayName='Thursday';
+              break;
+            case 5:
+              dayName='Friday';
+              break;
+            case 6:
+              dayName='Saturday';
+              break;
+            default:
+              dayName='TODAY';
+          }
+          return dayName;
+        }
+        else {
+          return undefined;
+        }
+      },
       attached: function(){
         document.getElementById('list_periods').fire('iron-resize');
       }

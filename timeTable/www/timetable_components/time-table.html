@@ -22,7 +22,7 @@
         <paper-tab><paper-icon-button icon="view-list"></paper-icon-button></paper-tab>
         <paper-tab><paper-icon-button icon="create"></paper-icon-button></paper-tab>
         <paper-tab><paper-icon-button icon="settings"></paper-icon-button></paper-tab>
-        <paper-tab>CAL</paper-tab>
+        <paper-tab><paper-icon-button icon="today"></paper-icon-button></paper-tab>
       </paper-tabs>
     </paper-toolbar>
     <iron-pages selected="{{pageSel}}">
@@ -30,7 +30,7 @@
         <week-view my-table={{myTable}} page-sel={{pageSel}} day-selected={{daySelected}}></week-view>
       </div>
       <div id="page-1" class="page">
-        <day-view my-table={{myTable}} page-sel={{pageSel}} day-selected={{daySelected}}></day-view>
+        <day-view my-table={{myTable}} page-sel={{pageSel}} day-selected={{daySelected}} to-day=[[toDay]]></day-view>
         <paper-material class="button-dock layout horizontal around-justified" elevation=2>
           <paper-icon-button icon="chevron-left" on-click="_prevDay"></paper-icon-button>
           <paper-icon-button icon="create" on-click="_editDay"></paper-icon-button>
@@ -41,18 +41,18 @@
         <day-edit my-table={{myTable}} page-sel={{pageSel}} day-selected={{daySelected}} t1={{title1}} t2={{title2}}></day-edit>
           <paper-material class="button-dock layout horizontal around-justified" elevation=2>
             <paper-icon-button icon="chevron-left" on-click="_prevDay"></paper-icon-button>
-            <paper-icon-button icon="save" on-click="handleSaveClick"></paper-icon-button>
+            <paper-icon-button icon="check-circle" on-click="handleSaveClick"></paper-icon-button>
             <paper-icon-button icon="chevron-right" on-click="_nextDay"></paper-icon-button>
           </paper-material>
       </div>
       <div id="page-3" class="page">
         <header-edit my-table={{myTable}} page-sel={{pageSel}} day-selected={{daySelected}} t1={{title1}} t2={{title2}}></header-edit>
           <paper-material class="button-dock layout horizontal around-justified" elevation=2>
-            <paper-icon-button icon="save" on-click="handleSaveClick"></paper-icon-button>
+            <paper-icon-button icon="check-circle" on-click="handleSaveClick"></paper-icon-button>
           </paper-material>
       </div>
       <div id="page-3" class="page">
-        <school-cal></school-cal>
+        <school-cal today-obj={{toDay}}></school-cal>
       </div>
     </iron-pages>
   </template>
@@ -83,11 +83,21 @@
         },
         pageSel:{
           type: Number,
-          value: 0
+          value: 1
+        },
+        toDay:{
+          type: Number,
+          observer: '_currDay'
         }
       },
 
+      _currDay : function(newval,oldval){
+          document.getElementById('list_days').selectItem(newval.day-1);
+          //this._prevDay();
+          //this._prevDay();
 
+          //console.log('y changed',newval.day,oldval);
+      },
 
 
       ready: function(){
@@ -135,9 +145,12 @@
         this.pageSel=2;
       },
       attached: function(){
+        //force resize to avoid rendering issues in iron-list
         document.getElementById('list_days').fire('iron-resize');
-        document.getElementById('list_periods').fire('iron-resize');
-        document.getElementById('list_days').selectItem(2);
+        //document.getElementById('list_periods').fire('iron-resize');
+
+        //default selection of day-3
+        //document.getElementById('list_days').selectItem(2);
       },
 
       loadJSON: function(callback) {
