@@ -11,10 +11,22 @@
         padding:3px;
         height:32px;
       }
+
+      .today{
+        background-color: var(--light-accent-color);
+      }
+
     .subject{
-        width:145px;
+        width:140px;
         padding: 3px;
       }
+
+      .note{
+          width: 294px;
+          padding: 3px;
+          color:var(--dark-accent-color);
+          font-size:12px;
+        }
 
       .wb {
         color:var(--paper-indigo-500);
@@ -39,6 +51,12 @@
         width: 305px;
         margin: 6px 0 18px 0;
       }
+      .tall {
+        height: 48px;
+      }
+      .short {
+        height: 16px;
+      }
 
     </style>
 
@@ -49,15 +67,14 @@
             <paper-material class="period" elevation=0>
               {{_localeDate(daySelectedForEdit.date)}}
             </paper-material>
-            <paper-material class="period" elevation=0 hidden$="{{_isWeekend(daySelectedForEdit.daytype)}}">
+            <paper-material class="period" elevation=0 >
               Holiday : <paper-checkbox checked={{daySelectedForEdit.skip}}></paper-checkbox>
             </paper-material>
-            <paper-material class="period" elevation=0 hidden$="{{_isWeekend(daySelectedForEdit.daytype)}}">
-              <paper-input is="iron-input" no-label-float value="{{daySelectedForEdit.remark::input}}"></paper-input>
+
+            <paper-material class="period tall" elevation=0 hidden$="{{!daySelectedForEdit.skip}}">
+               <paper-input is="iron-input" label="Holiday Remarks" value="{{daySelectedForEdit.remark::input}}"></paper-input>
             </paper-material>
-            <paper-material class="period" elevation=0 hidden$="{{!_isWeekend(daySelectedForEdit.daytype)}}">
-              {{daySelectedForEdit.daytype}} : {{daySelectedForEdit.remark}}
-            </paper-material>
+
           </div>
 
 
@@ -72,24 +89,43 @@
         <div class="card-content">
           <!-- <iron-list id="list_days" items="{{schalendar}}" class="periodList" selection-enabled selected-item="{{daySelectedForEdit}}"> -->
 
+          <paper-material class="period short today note">
+            Tap on any day to set it as a holiday or school day
+          </paper-material>
           <template is="dom-repeat" items="{{schalendar}}" class="periodList" filter="_filterCal">
-            <paper-material id="{{item.daynum}}" class="period layout horizontal" on-tap="editSchalendar">
+            <paper-material id="{{item.daynum}}" class$="layout horizontal wrap {{_getStyleClass(item.daynum)}}" on-tap="editSchalendar">
 
-                <div class="subject">
-                  [[_localeDate(item.date)]]
+              <div class="subject">
+                [[_localeDate(item.date)]]
+              </div>
 
-                </div>
-                <div class="marker">
-                  <iron-icon icon="alarm" hidden$={{!_isToday(item.daynum)}}></iron-icon>
-                </div>
-                <div class="wb" hidden$={{item.skip}}>
-                  Day {{item.day}}
-                </div>
-                <div class="wb holiday" hidden$={{!item.skip}}>
-                  {{item.remark}}
-                </div>
+              <!-- for holiday -->
+              <div class="marker" hidden$={{!item.skip}}>
+                <iron-icon icon="alarm" hidden$={{!_isToday(item.daynum)}}></iron-icon>
+              </div>
+              <div class="wb holiday" hidden$={{!item.skip}}>
+                {{item.remark}}
+              </div>
+
+
+
+              <!-- for working weekday -->
+
+              <div class="marker" hidden$={{item.skip}}>
+                <iron-icon icon="alarm" hidden$={{!_isToday(item.daynum)}}></iron-icon>
+              </div>
+              <div class="wb" hidden$={{item.skip}}>
+                Day {{item.day}}
+              </div>
+
+
+              <div class="note" hidden$={{!_isToday(item.daynum)}} >
+                <div hidden$={{!item.skip}}>Not a Holiday today? Tap to reset.</div>
+                <div hidden$={{item.skip}}>Not a School Day today? Tap to reset.</div>
+              </div>
 
             </paper-material>
+
 
           </template>
         <!-- </iron-list> -->
@@ -116,6 +152,13 @@
       },
       _isWeekend: function(daytype){
         return(daytype==='Weekend');
+      },
+      _getStyleClass: function(itemdaynum){
+        if(this._isToday(itemdaynum)) {
+          return "period tall today";
+        } else {
+          return "period";
+        }
       },
       _isToday: function(itemdaynum){
         var itemdate = this.schalendar[itemdaynum].date;
@@ -163,23 +206,35 @@
       },
       ready: function(){
         this.today = new Date();
+
         var calendarStartDate = this.getStartDate();
         var calendarEndDate = new Date(calendarStartDate.getFullYear()+1,calendarStartDate.getMonth(),calendarStartDate.getDate());
         this.millisecondsInDay = (24 * 60 * 60 * 1000);
 
         this.schalendar = this.init(calendarStartDate, calendarEndDate);
-        this.getSaturdays(calendarStartDate, calendarEndDate);
-        this.getSundays(calendarStartDate, calendarEndDate);
+
+
+        var strStartDate = '1970-01-01';
+        if(localStorage["calendarStartDate"]){
+            strStartDate = localStorage["calendarStartDate"];
+        }
+        var storedStartDate = new Date(strStartDate.substring(0,4),strStartDate.substring(5,7)-1,strStartDate.substring(8,10));
+
+        //compute weekends only for the first time when calendar startdate changes
+        if(storedStartDate.getTime() !== calendarStartDate.getTime()){
+          console.log('computing weekends ['+(storedStartDate)+'] ['+(calendarStartDate)+']');
+          this.getSaturdays(calendarStartDate, calendarEndDate);
+          this.getSundays(calendarStartDate, calendarEndDate);
+        } else{
+          console.log('skipped weekend computation');
+        }
+        //all weekends are already put holidays during first time for calendar startdate
         this.getHolidays(calendarStartDate, calendarEndDate);
-
-
         console.log(this.schalendar);
       },
 
       _filterCal: function(item){
-
         var diff = (Number(item.date) - Number(this.today));
-
         return(diff >= -7 *this.millisecondsInDay);
       },
 
@@ -189,16 +244,16 @@
       },
 
       getStartDate: function(){
-        var today = new Date();
-        var startMonth = 4;
-        var startDate = 1;
+          var today = new Date();
+          var startMonth = 4;
+          var startDate = 1;
 
-        if(today < new Date(today.getFullYear(), startMonth, startDate)){
-          return new Date(today.getFullYear()-1, startMonth, startDate);
-        }
-        else{
-          return new Date(today.getFullYear(), startMonth, startDate);
-        }
+          if(today < new Date(today.getFullYear(), startMonth, startDate)){
+            return new Date(today.getFullYear()-1, startMonth, startDate);
+          }
+          else{
+            return new Date(today.getFullYear(), startMonth, startDate);
+          }
       },
 
       //fucntion to print all sundays
@@ -276,12 +331,17 @@
            for(var i=0; i<holidays.length; i++){
              var holDate = new Date(holidays[i].date.substring(0,4),holidays[i].date.substring(5,7)-1,holidays[i].date.substring(8,10));
              var holOffset = (Number(holDate)-Number(calendarStartDate))/self.millisecondsInDay;
-             self.schalendar[holOffset].skip = true;
-             self.schalendar[holOffset].remark = holidays[i].remarks;
-             self.schalendar[holOffset].daytype = 'Holiday';
+             if(holOffset >=0 && holOffset <=366){
+               self.schalendar[holOffset].skip = true;
+               self.schalendar[holOffset].remark = holidays[i].remarks;
+               self.schalendar[holOffset].daytype = 'Holiday';
+             }
+             else {
+               console.log("this holiday ["+holDate+"] before or after calendar range is ignored");
+             }
            }
 
-           self.markDayNames();
+           self.markDayNames(calendarStartDate);
 
         });
 
@@ -307,10 +367,14 @@
        }
       },
 
-      markDayNames: function (){
+      markDayNames: function (calendarStartDate){
         var dayNum = -1;
         var newSchalendar = [];
         var newHolidays = [];
+
+        if(localStorage.firstDayNum){
+          dayNum = localStorage["firstDayNum"]-2;
+        }
 
         for(var i=0; i<this.schalendar.length; i++){
 
@@ -318,7 +382,7 @@
           if(this.schalendar[i].skip){
             //don't change the dayNum
             //dayNum += 0;
-            if(this.schalendar[i].daytype == 'Holiday') {
+
               var monthStr = String(Number(this.schalendar[i].date.getMonth())+1);
               (monthStr.length == 1) ? (monthStr='0'+monthStr) : (monthStr=monthStr);
 
@@ -327,7 +391,7 @@
 
               //set the day in new holiday array
               newHolidays.push({"date":this.schalendar[i].date.getFullYear()+'-'+monthStr+'-'+dayStr, "remarks": this.schalendar[i].remark});
-            }
+
           } else {
             dayNum += 1;
           }
@@ -349,6 +413,35 @@
         this.set('schalendar',newSchalendar);
 
         localStorage["holidays"]=JSON.stringify(newHolidays);
+
+        //in case is of calendar holiday edit, so the whole block is not executed
+        //only when the app is launched below code is executed
+        if(calendarStartDate){
+
+
+          var strStartDate = '1970-01-01';
+          if(localStorage["calendarStartDate"]){
+              strStartDate = localStorage["calendarStartDate"];
+          }
+          var storedStartDate = new Date(strStartDate.substring(0,4),strStartDate.substring(5,7)-1,strStartDate.substring(8,10));
+
+
+          //compute weekends only for the first time when calendar startdate changes
+          if(storedStartDate.getTime() !== calendarStartDate.getTime()){
+            console.log('storing new start date ['+storedStartDate+'] ['+calendarStartDate+']');
+
+            var monthStr = String(Number(calendarStartDate.getMonth())+1);
+            (monthStr.length == 1) ? (monthStr='0'+monthStr) : (monthStr=monthStr);
+
+            var dayStr = String(calendarStartDate.getDate());
+            (dayStr.length == 1) ? (dayStr='0'+dayStr) : (dayStr=dayStr);
+
+            //set the day in new holiday array
+            localStorage["calendarStartDate"]=calendarStartDate.getFullYear()+'-'+monthStr+'-'+dayStr;
+
+          }
+
+        }
         //console.log('saving new holidays array',localStorage["holidays"]);
       }
 

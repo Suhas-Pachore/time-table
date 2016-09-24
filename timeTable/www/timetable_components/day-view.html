@@ -30,10 +30,15 @@
         };
       }
 
-      .TODAY{
-        --paper-card-header:{
-          background-color: var(--paper-brown-500);
-        };
+      .today{
+          width: 305px;
+          background-color1: var(--light-accent-color);
+          height: 48px;
+          margin-top: 6px;
+      }
+
+      .fullwidth{
+        width:100%;
       }
 
       .period{
@@ -65,9 +70,41 @@
         width:30px;
         color:var(--paper-orange-500);
       }
+
+      .note{
+          padding: 3px;
+          color:var(--dark-accent-color);
+          font-size:12px;
+        }
+
     </style>
 
     <div id="page-1" class="tab-area">
+      <div class="layout horizontal center-justified fullwidth">
+      <paper-material class="layout horizontal around-justified wrap today" on-tap="_gotoCal">
+
+        <div>
+        [[_localeDate(toDay.date)]]
+        </div>
+        <!-- for holiday -->
+
+        <div hidden$={{!toDay.skip}}>
+          {{toDay.remark}}
+        </div>
+
+
+
+        <!-- for working weekday -->
+
+        <div hidden$={{toDay.skip}}>
+          Day {{toDay.day}}
+        </div>
+
+          <div class="note" hidden$={{!toDay.skip}}>Not a <u><b>Holiday</b></u> today? Tap to set school calendar.</div>
+          <div class="note" hidden$={{toDay.skip}}>Not a <u><b>Day [[toDay.day]]</b></u> today? Tap to set school calendar.</div>
+
+      </paper-material>
+      </div>
       <paper-card heading="[[daySelected.name]]">
         <div class="card-content">
           <!-- <iron-list id="list_periods" items="{{daySelected.period}}" as="item"  class="periodList"> -->
@@ -97,29 +134,7 @@
       </paper-card>
 
       <div class="right-bar">
-        <paper-card heading="{{_getWeekdayName(toDay.date)}}" class="day TODAY">
-          <div class="card-content">
-            <!--iron-list id="list_NB" items="[[daySelected.period]]" as="item3" class="periodList thinList" -->
 
-                <div class="thin">
-                  <div class="thin">
-                    [[_localeDate(toDay.date)]]
-                  </div>
-                  <div class="thin" hidden$={{toDay.skip}}>
-                    [[toDay.daytype]] :- [[toDay.day]]
-                  </div>
-                  <!-- <div class="thin" hidden$={{!toDay.skip}}>
-                    [[toDay.daytype]] :-
-                  </div> -->
-                  <div class="thin" hidden$={{!toDay.skip}}>
-                      [[toDay.remark]]
-                  </div>
-
-                </div>
-
-            <!--</iron-list>-->
-          </div>
-        </paper-card>
 
         <paper-card heading="Cont Books" class="day CB">
           <div class="card-content">
@@ -193,6 +208,9 @@
       },
       ready: function(){
         //console.log('eek-view',JSON.stringify(this.myTable));
+      },
+      _gotoCal: function(){
+        this.pageSel=4;
       },
       _localeDate: function(dateobj){
         if(dateobj){
