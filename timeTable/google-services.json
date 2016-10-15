@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "613990194016",
+    "firebase_url": "https://time-table-a5ec8.firebaseio.com",
+    "project_id": "time-table-a5ec8",
+    "storage_bucket": "time-table-a5ec8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:613990194016:android:c2451d0be3ef8151",
+        "android_client_info": {
+          "package_name": "pachore.suhas.timeTable"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "613990194016-6hsu3kok1c8u7kq88su77d0stfeaebeo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQ-diB6oboipV9jL2V2s0OT0j2XNm-0rk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
