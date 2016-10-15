@@ -9,7 +9,7 @@
         width:294px;
         margin:3px;
         padding:3px;
-        height:32px;
+        height:24px;
       }
 
       .today{
@@ -89,8 +89,9 @@
         <div class="card-content">
           <!-- <iron-list id="list_days" items="{{schalendar}}" class="periodList" selection-enabled selected-item="{{daySelectedForEdit}}"> -->
 
-          <paper-material class="period short today note">
-            Tap on any day to set it as a holiday or school day
+          <paper-material class="period tall today note">
+            <div>Tap on any day to set it as a holiday or school day.</div>
+            <div>The Day-Numbers are automatically adjusted for any changes.</div>
           </paper-material>
           <template is="dom-repeat" items="{{schalendar}}" class="periodList" filter="_filterCal">
             <paper-material id="{{item.daynum}}" class$="layout horizontal wrap {{_getStyleClass(item.daynum)}}" on-tap="editSchalendar">
@@ -164,8 +165,8 @@
         var itemdate = this.schalendar[itemdaynum].date;
         var diff = (Number(itemdate) - Number(this.today));
         if(diff >= -0.75 * this.millisecondsInDay && diff < 0.25 * this.millisecondsInDay){
-          this.todayObj = this.schalendar[itemdaynum];
-          //console.log('setting todayNum',this.todayNum);
+          //this.todayObj = this.schalendar[itemdaynum];
+          //console.log('_isToday - TRUE');
           return true;
         } else {
           return false;
@@ -205,6 +206,8 @@
         this.editMode = false;
       },
       ready: function(){
+        console.log("school-cal: ready start");
+
         this.today = new Date();
 
         var calendarStartDate = this.getStartDate();
@@ -230,7 +233,8 @@
         }
         //all weekends are already put holidays during first time for calendar startdate
         this.getHolidays(calendarStartDate, calendarEndDate);
-        console.log(this.schalendar);
+        //console.log(this.schalendar);
+        console.log("school-cal: ready end");
       },
 
       _filterCal: function(item){
@@ -371,6 +375,7 @@
         var dayNum = -1;
         var newSchalendar = [];
         var newHolidays = [];
+        var todayObject;
 
         if(localStorage.firstDayNum){
           dayNum = localStorage["firstDayNum"]-2;
@@ -406,7 +411,16 @@
               daytype: this.schalendar[i].daytype
             };
 
+            if(this.todayObj == undefined){
+              var itemdate = this.schalendar[i].date;
+              var diff = (Number(itemdate) - Number(this.today));
+              if(diff >= -0.75 * this.millisecondsInDay && diff < 0.25 * this.millisecondsInDay){
+                //todayObject = this.schalendar[i];
+                this.todayObj = newSchalendar[i];
+                console.log('setting todayObj to:',this.todayObj);
 
+              }
+            }
 
         }
 
@@ -414,8 +428,9 @@
 
         localStorage["holidays"]=JSON.stringify(newHolidays);
 
+
         //in case is of calendar holiday edit, so the whole block is not executed
-        //only when the app is launched below code is executed
+        //only when the app is launched below code is executed, as calendarStartDate comes only from edit-save fuction
         if(calendarStartDate){
 
 
@@ -443,6 +458,7 @@
 
         }
         //console.log('saving new holidays array',localStorage["holidays"]);
+        console.log("school-cal: local storage finished now!");
       }
 
 

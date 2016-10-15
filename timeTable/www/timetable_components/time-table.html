@@ -86,13 +86,20 @@
           value: 1
         },
         toDay:{
-          type: Number,
+          type: Object,
           observer: '_currDay'
         }
       },
 
       _currDay : function(newval,oldval){
+        //avoid selecting grid item before it is loaded and binded
+        if(this.timeTableLoaded) {
+          console.log("time-table: current day changed: switching to today's timetable day-view");
           document.getElementById('list_days').selectItem(newval.day-1);
+        }
+        else {
+          console.log("time-table: current day changed: NOT switching to today's timetable day-view AS timetable is not loaded yet");
+        }
           //this._prevDay();
           //this._prevDay();
 
@@ -101,10 +108,11 @@
 
 
       ready: function(){
+        console.log("time-table: ready start");
         var self = this;
         self.loadJSON(function(response) {
          // Parse JSON string into object
-           console.log('tit',localStorage["title"]);
+           //console.log('tit',localStorage["title"]);
            if(localStorage.title){
              title=JSON.parse(localStorage["title"]);
              self.title1=title.title1;
@@ -114,8 +122,15 @@
            self.timeTable = JSON.parse(response).TimeTable;
            self.schoolName1 = (self.timeTable.School[0].name);
            self.parseClassTable(self.in_school, self.in_class, self.in_div);
-
+           self.timeTableLoaded = true;
+           console.log("time-table: time-table loaded");
+           if(self.toDay){
+             //if toDay object is already set, select that Day timetable;
+             console.log("time-table: data loaded: switching to today's timetable day-view");
+             document.getElementById('list_days').selectItem(self.toDay.day-1);
+           }
         });
+        console.log("time-table: ready end");
       },
       _nextDay:function(e){
 
@@ -155,7 +170,7 @@
 
       loadJSON: function(callback) {
         if(localStorage.timetable){
-          console.log("picking from localStorage:"+localStorage.timetable);
+          console.log("picking timetable from localStorage:");//+localStorage.timetable);
           callback((localStorage["timetable"]));
         }
         else{
@@ -179,17 +194,17 @@
           //self.myTable = [3];
           self.itemList = [];
           var i_sch = self.timeTable.School.length;
-          console.log(i_sch+in_school);
+          //console.log(i_sch+in_school);
           while(i_sch){
             if(self.timeTable.School[i_sch-1].id === in_school){
               var mysch = self.timeTable.School[i_sch-1];
               var i_class = mysch.class.length;
-              console.log(i_class);
+              //console.log(i_class);
               while(i_class){
                 if(mysch.class[i_class-1].std === in_class){
                   var mycls = mysch.class[i_class-1];
                   var i_div = mycls.division.length;
-                  console.log(i_div);
+                  //console.log(i_div);
                   while(i_div){
                     if(mycls.division[i_div-1].div === in_div){
                       var mydiv = mycls.division[i_div-1];
@@ -201,7 +216,7 @@
                       while(i_days){
                         var dd = mydiv.Day[i_days-1];
                         var i_pd = dd.period.length;
-                        console.log("adding day:"+dd.Day);
+                        //console.log("adding day:"+dd.Day);
 
                         for(var i=0; i< i_pd; i++){
 
