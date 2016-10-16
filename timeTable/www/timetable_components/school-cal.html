@@ -184,6 +184,15 @@
         this.editMode = true;
         var dayClickedIdx = e.currentTarget.id -1 + 1;
         this.daySelectedForEdit = this.schalendar[dayClickedIdx];
+
+        if( window.FirebasePlugin ) {
+          window.FirebasePlugin.logEvent("page_view", {page: "holiday_edit", from_page: "school-cal"});
+          console.log("##page_view##:","school-cal","->","holiday_edit");
+        }
+        else{
+          console.log("$$device not ready");
+        }
+
       },
       handleSaveClick: function(e){
 

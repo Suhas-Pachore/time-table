@@ -51,7 +51,7 @@
             <paper-icon-button icon="check-circle" on-click="handleSaveClick"></paper-icon-button>
           </paper-material>
       </div>
-      <div id="page-3" class="page">
+      <div id="page-4" class="page">
         <school-cal today-obj={{toDay}}></school-cal>
       </div>
     </iron-pages>
@@ -83,12 +83,39 @@
         },
         pageSel:{
           type: Number,
-          value: 1
+          value: 1,
+          observer: '_onPageChange'
         },
         toDay:{
           type: Object,
           observer: '_currDay'
+        },
+        dict_pages:{
+          type: Array,
+          value:['week-view','day-view','day-edit','header-edit','school-cal']
         }
+      },
+
+      _onPageChange : function(newpage, oldpage){
+        var frompage, topage;
+        if(oldpage != undefined){
+          frompage = this.dict_pages[oldpage];
+          topage = this.dict_pages[newpage];
+        }
+        else{
+          frompage = "app-launch";
+          topage = "day-view";
+        }
+
+        //console.log("##page_view##:",frompage,"->",topage);
+        if( window.FirebasePlugin ) {
+          window.FirebasePlugin.logEvent("page_view", {page: topage, from_page: frompage});
+          console.log("##page_view##:",frompage,"->",topage);
+        }
+        else{
+          console.log("$$device not ready");
+        }
+
       },
 
       _currDay : function(newval,oldval){
