@@ -109,7 +109,7 @@
 
         //console.log("##page_view##:",frompage,"->",topage);
         if( window.FirebasePlugin ) {
-          window.FirebasePlugin.logEvent("page_view", {page: topage, from_page: frompage});
+          window.FirebasePlugin.logEvent("view_item", {item_id: topage, item_name: topage, item_category: "menu", item_location_id: frompage});
           console.log("##page_view##:",frompage,"->",topage);
         }
         else{

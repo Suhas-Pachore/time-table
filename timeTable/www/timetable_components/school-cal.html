@@ -186,8 +186,9 @@
         this.daySelectedForEdit = this.schalendar[dayClickedIdx];
 
         if( window.FirebasePlugin ) {
-          window.FirebasePlugin.logEvent("page_view", {page: "holiday_edit", from_page: "school-cal"});
-          console.log("##page_view##:","school-cal","->","holiday_edit");
+          //window.FirebasePlugin.logEvent("page_view", {page: "holiday_edit", from_page: "school-cal"});
+          window.FirebasePlugin.logEvent("view_item", {item_id: "holiday-edit", item_name: "holiday-edit", item_category: "menu", item_location_id: "school-cal"});
+          console.log("##page_view##:","school-cal","->","holiday-edit");
         }
         else{
           console.log("$$device not ready");
